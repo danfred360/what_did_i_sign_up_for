@@ -1,7 +1,8 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Header, HTTPException, Response
-from starlette.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, Header, HTTPException
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 import os
 
@@ -16,11 +17,12 @@ app = FastAPI()
 
 root = os.path.dirname(os.path.abspath(__file__))
 
+app.mount('/public', app=StaticFiles(directory='app/public', html=True), name='public')
+
 @app.get("/")
-async def root():
-    with open(os.path.abspath('app/public/index.html')) as fh:
-        data = fh.read()
-    return Response(content=data, media_type="text/html")
+async def redirect():
+    response = RedirectResponse(url='/public')
+    return response
 
 class Item(BaseModel):
     id: str

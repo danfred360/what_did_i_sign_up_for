@@ -10,7 +10,39 @@
 
 <body class="container">
     <h1>Hello World!</h1>
-    <p>Check out the swagger page <a href="/docs">here</a>.</p>
+    <br>
+
+    <div class="form_area">
+        <h4 class="title">CREATE AN ITEM</h4>
+        <form id="form" action="">
+            <div class="form_group">
+                <label for="id" class="sub_title">id</label>
+                <input type="text" class="form_style" id="id" placeholder="Enter an id for the item">
+            </div>
+            <div class="form_group">
+                <label for="title" class="sub_title">title</label>
+                <input type="text" class="form_style" id="title" placeholder="Enter a name for the item" />
+            </div>
+            <div class="form_group">
+                <label for="description" class="sub_title">description</label>
+                <input type="text" class="form_style" id="description" placeholder="Enter a description for the item" />
+            </div>
+            <div class="form_group">
+                <label for="token" class="sub_title">token</label>
+                <input type="password" class="form_style" id="token" placeholder="Enter your api token" />
+            </div>
+            <div>
+                <button class="btn">CREATE ITEM</button>
+                <p>See swagger page <a href="/docs" class="link">here</a>.</p>
+            </div>
+        </form>
+    </div>
+
+    <br>
+
+    <div id="response-container"></div>
+
+    <script src="index.js"></script>
 </body>
 
 </html>
