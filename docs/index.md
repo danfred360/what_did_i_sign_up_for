@@ -1,5 +1,7 @@
 # what_did_i_sign_up_for
 
+See what's [in progress](./in_progress.md).
+
 ## run locally
 ```bash
 # initialize virtual environment

@@ -10,12 +10,12 @@ services:
       - traefik.http.services.app.loadbalancer.server.port=80
       # Make Traefik use this domain in HTTP
       - traefik.http.routers.app-http.entrypoints=http
-      - traefik.http.routers.app-http.rule=Host(`fastapi-with-traefik.example.com`)
+      - traefik.http.routers.app-http.rule=Host(`npole.org`)
       # Use the traefik-public network (declared below)
       - traefik.docker.network=traefik-public
       # Make Traefik use this domain in HTTPS
       - traefik.http.routers.app-https.entrypoints=https
-      - traefik.http.routers.app-https.rule=Host(`fastapi-with-traefik.example.com`)
+      - traefik.http.routers.app-https.rule=Host(`npole.org`)
       - traefik.http.routers.app-https.tls=true
       # Use the "le" (Let's Encrypt) resolver
       - traefik.http.routers.app-https.tls.certresolver=le
@@ -25,6 +25,9 @@ services:
       # Middleware to redirect HTTP to HTTPS
       - traefik.http.routers.app-http.middlewares=https-redirect
       - traefik.http.routers.app-https.middlewares=admin-auth
+      # docs endpoint
+      - traefik.http.routers.app-http.rule=Host(`npole.org`) && PathPrefix(`/docs`)
+      - traefik.http.services.app-http.loadbalancer.server.port=80
     networks:
       # Use the public network created to be shared between Traefik and
       # any other service that needs to be publicly available with HTTPS

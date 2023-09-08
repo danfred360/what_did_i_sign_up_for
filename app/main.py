@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Header, HTTPException
+from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 fake_secret_token = "coneofsilence"
