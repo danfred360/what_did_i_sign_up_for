@@ -21,3 +21,12 @@ See swagger page [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 # run pytests
 pytest app
 ```
+
+## run with Docker
+```bash
+# build image
+docker build -t app .
+
+# run container
+docker run -d --name app -p 80:80 app
+```
