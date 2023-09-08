@@ -39,4 +39,6 @@ form.addEventListener('submit', async (event) => {
     } catch (error) {
         console.error('Error:', error);
     }
+
+    // foobar
 });
