@@ -1,1 +1,1 @@
-# what_did_i_sign_up_for
+See [the docs](./docs/index.md).
