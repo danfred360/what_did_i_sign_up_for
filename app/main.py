@@ -1,8 +1,9 @@
 from typing import Annotated
 
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI, Header, HTTPException, Response
 from starlette.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
 
 fake_secret_token = "coneofsilence"
 
@@ -12,6 +13,14 @@ fake_db = {
 }
 
 app = FastAPI()
+
+root = os.path.dirname(os.path.abspath(__file__))
+
+@app.get("/")
+async def root():
+    with open(os.path.abspath('app/public/index.html')) as fh:
+        data = fh.read()
+    return Response(content=data, media_type="text/html")
 
 class Item(BaseModel):
     id: str

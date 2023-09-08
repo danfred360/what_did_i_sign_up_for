@@ -12,8 +12,7 @@ python -m venv venv
 pip install -r requirements.txt
 
 # run
-cd app
-uvicorn main:app --reload
+uvicorn app.main:app --reload
 ```
 
 See swagger page [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
@@ -32,3 +31,6 @@ docker build -t app .
 # run container
 docker run -d --name app -p 80:80 app
 ```
+
+## resources
+- https://fastapi.tiangolo.com/tutorial/testing/
