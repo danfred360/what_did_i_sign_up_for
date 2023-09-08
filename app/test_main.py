@@ -4,6 +4,19 @@ from .main import app
 
 client = TestClient(app)
 
+def test_redirect():
+    response = client.get("/")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    assert b"<!DOCTYPE html>" in response.content
+
+def test_public_site():
+    response = client.get("/public")
+    assert response.status_code == 200
+    assert response.headers["content-type"] == "text/html; charset=utf-8"
+    assert b"<!DOCTYPE html>" in response.content
+
+
 def test_read_item():
     response = client.get("/items/foo", headers={"X-Token": "coneofsilence"})
     assert response.status_code == 200

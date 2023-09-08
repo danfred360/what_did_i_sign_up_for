@@ -1,8 +1,10 @@
 from typing import Annotated
 
 from fastapi import FastAPI, Header, HTTPException
-from starlette.middleware.cors import CORSMiddleware
+from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+import os
 
 fake_secret_token = "coneofsilence"
 
@@ -12,6 +14,15 @@ fake_db = {
 }
 
 app = FastAPI()
+
+root = os.path.dirname(os.path.abspath(__file__))
+
+app.mount('/public', app=StaticFiles(directory='app/public', html=True), name='public')
+
+@app.get("/")
+async def redirect():
+    response = RedirectResponse(url='/public')
+    return response
 
 class Item(BaseModel):
     id: str
