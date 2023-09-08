@@ -32,5 +32,7 @@ docker build -t app .
 docker run -d --name app -p 80:80 app
 ```
 
+![site-screenshot](./assets/site-screenshot.png)
+
 ## resources
 - https://fastapi.tiangolo.com/tutorial/testing/
