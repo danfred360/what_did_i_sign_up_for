@@ -59,8 +59,9 @@ erDiagram vectordb
     ENTITY file {
         id int
         url uri
-        title string
+        name string
         description string
+        contents string
         class_id int
     }
 
@@ -86,3 +87,4 @@ erDiagram vectordb
 ```
 ## resources
 - [pgvector](https://github.com/pgvector/pgvector)
+- https://neon.tech/docs/extensions/pgvector

@@ -3,29 +3,36 @@ CREATE TABLE  collection (
     parent_collection_id INTEGER REFERENCES collection(id) NULL,
     name TEXT,
     description TEXT,
-    image_url TEXT
+    image_url TEXT NULL
 );
 
-CREATE TABLE class (
+CREATE TABLE file_class (
     id SERIAL PRIMARY KEY,
     name TEXT,
     description TEXT,
-    image_url TEXT
+    image_url TEXT NULL
 );
 
 CREATE TABLE file (
     id SERIAL PRIMARY KEY,
     url TEXT,
-    title TEXT,
+    name TEXT,
     description TEXT NULL,
-    class_id INTEGER REFERENCES class(id),
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    file_class_id INTEGER REFERENCES file_class(id),
     collection_id INTEGER REFERENCES collection(id)
 );
 
 CREATE TABLE document (
     id SERIAL PRIMARY KEY,
-    source_file_id INTEGER REFERENCES file(id),
-    title TEXT
+    file_id INTEGER REFERENCES file(id),
+    name TEXT,
+    description TEXT NULL,
+    url TEXT NULL,
+    contents TEXT,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW()
 );
 
 CREATE TABLE segment (
@@ -35,5 +42,6 @@ CREATE TABLE segment (
     source_document_id INTEGER REFERENCES document(id),
     start_line INTEGER,
     end_line INTEGER,
-    content TEXT
+    content TEXT,
+    created_at TIMESTAMP DEFAULT NOW()
 );
