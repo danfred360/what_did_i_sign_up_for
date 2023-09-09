@@ -16,5 +16,26 @@ docker exec -it vectordb bash
 psql -h localhost -U postgres -d vectordb
 ```
 
+useful psql commands:
+```sql
+-- list tables in database
+\dt;
+
+-- list columns in table
+\d+ table_name;
+
+-- select * from table
+select * from table_name;
+
+-- list indexes in table
+\di+ table_name;
+
+-- list functions in database
+\df;
+
+-- list triggers in database
+\dft;
+```
+
 ## resources
 - [pgvector](https://github.com/pgvector/pgvector)

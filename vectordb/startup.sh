@@ -21,7 +21,7 @@ echo "print tables in vectordb"
 EOSQL
 
 # echo "seeding data"
-# "${psql[@]}" --dbname="vectordb" -f /sqlscripts/seed.sql
+"${psql[@]}" --dbname="vectordb" -f /sqlscripts/seed.sql
 
 # Run the original entrypoint script
 # /usr/local/bin/docker-entrypoint.sh "$@"
