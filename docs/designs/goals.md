@@ -15,6 +15,7 @@ erDiagram
     ENTITY segment {
         id int
         embedding vector
+        potential_questions vector
         source_document_id int
         start_line int
         end_line int
@@ -24,21 +25,34 @@ erDiagram
     ENTITY document {
         id int
         source_file_id int
+        title string
     }
 
     ENTITY file {
         id int
         url uri
+        title string
+        description string
+        class_id int
+    }
+
+    ENTITY class {
+        id int
+        name string
+        description string
     }
 
     ENTITY collection {
         id int
         parent_collection_id int
         name string
+        description string
+        image uri
     }
 
     segment ||--o{ document : "source_document_id"
     document ||--o{ file : "source_file_id"
+    file ||--o{ class : "class_id"
     file ||--o{ collection : "collection_id"
     collection ||--o{ collection : "parent_collection_id"
 ```
@@ -69,7 +83,7 @@ python module for interacting with gpt4 provider and vectordb. this will be used
 
     - use search api to build context?
 ### web app
-use swagger to build out functionality.
+use swagger to build out functionality. split into two key features: search and question and answer.
 
 build a frontend that is as light as possible. html css and light js.
 ### cli app
