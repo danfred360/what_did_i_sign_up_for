@@ -13,7 +13,7 @@ EOSQL
 echo "running sql init files"
 # run sql init files
 "${psql[@]}" --dbname="vectordb" -f /sqlscripts/load_extensions.sql
-"${psql[@]}" --dbname="vectordb" -f /sqlscripts/init_schema.sql
+"${psql[@]}" --dbname="vectordb" -f /sqlscripts/create_tables.sql
 
 echo "print tables in vectordb"
 "${psql[@]}" --dbname="vectordb" <<-EOSQL 

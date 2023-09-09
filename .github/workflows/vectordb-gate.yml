@@ -1,0 +1,29 @@
+name: Build and Test Vectordb
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'vectordb/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: vectordb gate
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      run: docker build -t vectordb vectordb
+
+    - name: Start container
+      run: docker run -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres -e POSTGRES_DB=postgres -d --name vectordb vectordb
+
+    - name: Wait for container to start
+      run: docker logs -f vectordb | grep -q 'database system is ready to accept connections'
+
+    - name: Stop container
+      run: docker stop vectordb

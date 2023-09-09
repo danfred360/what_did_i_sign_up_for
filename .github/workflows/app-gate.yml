@@ -2,11 +2,13 @@ name: Gate
 on:
   pull_request:
     branches: [main]
+    paths:
+      - 'app/**'
   workflow_dispatch:
 
 jobs:
   build:
-    name: Gate
+    name: app gate
     runs-on: ubuntu-latest
     strategy:
       matrix:
