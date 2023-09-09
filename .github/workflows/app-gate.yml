@@ -1,4 +1,4 @@
-name: Gate
+name: app gate
 on:
   pull_request:
     branches: [main]
