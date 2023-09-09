@@ -10,39 +10,6 @@
 ### vectordb
 use postgres with the pgvector extension. this will allow us to store embeddings and metadata in the same database. we can use the metadata to filter the embeddings and return the most relevant results.
 
-```mermaid
-erDiagram
-    ENTITY segment {
-        id int
-        embedding vector
-        source_document_id int
-        start_line int
-        end_line int
-        content string
-    }
-
-    ENTITY document {
-        id int
-        source_file_id int
-    }
-
-    ENTITY file {
-        id int
-        url uri
-    }
-
-    ENTITY collection {
-        id int
-        parent_collection_id int
-        name string
-    }
-
-    segment ||--o{ document : "source_document_id"
-    document ||--o{ file : "source_file_id"
-    file ||--o{ collection : "collection_id"
-    collection ||--o{ collection : "parent_collection_id"
-```
-
 ### vectordb provider
 python module for interacting with vectordb. this will be used by the web app and the cli app. semantic search by creating an embedding of the search query and comparing it to the embeddings in vectordb. also takes parameters for filtering by metadata.
 
@@ -69,7 +36,7 @@ python module for interacting with gpt4 provider and vectordb. this will be used
 
     - use search api to build context?
 ### web app
-use swagger to build out functionality.
+use swagger to build out functionality. split into two key features: search and question and answer.
 
 build a frontend that is as light as possible. html css and light js.
 ### cli app
