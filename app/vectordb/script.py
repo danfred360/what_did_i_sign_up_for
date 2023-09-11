@@ -47,6 +47,15 @@ def load_doc():
 
     get_segments(document['id'])
 
+def load_documents_from_input_files_dir():
+    loader = DocumentLoader()
+    generate_embeddings = True
+    loader.load_documents_from_input_files_dir(generate_embeddings)
+
 #init_file()
 
-load_doc()
+# load_doc()
+
+load_documents_from_input_files_dir()
+
+# get_segments(10)
