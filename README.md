@@ -5,3 +5,11 @@ The purpose of this project is to provide a tool for understanding what you sign
 *See [the docs](./docs/index.md).*
 
 [![CodeQL](https://github.com/danfred360/what_did_i_sign_up_for/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/danfred360/what_did_i_sign_up_for/actions/workflows/github-code-scanning/codeql)
+
+## quickstart
+```bash
+cd deploy
+docker compose up
+```
+
+Access site at [localhost](http://localhost).

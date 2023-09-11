@@ -88,6 +88,24 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Record with id {collection_id} not found")
         
+    def get_collection_by_name(self, name):
+        table_name = "collection"
+        column_name = "name"
+        fields = ['id', 'parent_collection_id', 'name', 'description', 'image_url']
+        query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name),
+            column=sql.Identifier(column_name)
+        )
+        self.cursor.execute(query, (name,))
+
+        response = self.cursor.fetchone()
+        if response:
+            response_dict = dict(zip(fields, response))
+            return response_dict
+        else:
+            raise RecordNotFound(f"Record with name {name} not found")
+        
 
     def get_collections(self, collection_ids):
         if not collection_ids:
@@ -255,6 +273,24 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Record with id {file_class_id} not found")
         
+    def get_file_class_by_name(self, name):
+        table_name = "file_class"
+        column_name = "name"
+        fields = ['id', 'name', 'description', 'image_url']
+        query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name),
+            column=sql.Identifier(column_name)
+        )
+        self.cursor.execute(query, (name,))
+
+        response = self.cursor.fetchone()
+        if response:
+            response_dict = dict(zip(fields, response))
+            return response_dict
+        else:
+            raise RecordNotFound(f"Record with name {name} not found")
+        
     def create_file_class(self, name, description, image_url=None):
         table_name = "file_class"
         response_fields = ['id', 'name', 'description', 'image_url']
@@ -375,6 +411,24 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"File with id {file_id} not found")
         
+    def get_file_by_name(self, name):
+        table_name = "file"
+        column_name = "name"
+        fields = ['id', 'collection_id', 'file_class_id', 'name', 'description', 'url', 'created_at', 'updated_at']
+        query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name),
+            column=sql.Identifier(column_name)
+        )
+        self.cursor.execute(query, (name,))
+
+        response = self.cursor.fetchone()
+        if response:
+            response_dict = dict(zip(fields, response))
+            return response_dict
+        else:
+            raise RecordNotFound(f"File with name {name} not found")
+        
     def create_file(self, collection_id, file_class_id, name, description, url):
         if not collection_id or not file_class_id or not name or not description or not url:
             raise ValueError('Collection id, file_class_id, name, description, and file url are required')
@@ -492,6 +546,24 @@ class VectorDBProvider:
             # return RecordNotFound("No documents found")
             return None
         
+    def list_documents(self):
+        table_name = "document"
+        fields = ['id', 'file_id', 'name', 'description', 'contents', 'url', 'created_at', 'updated_at']
+        query = sql.SQL('SELECT {fields} FROM {table}').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name)
+        )
+        self.cursor.execute(query)
+
+        response =  self.cursor.fetchall()
+        if response:
+            response_dict = [dict(zip(fields, row)) for row in response]
+            for document in response_dict:
+                del document['contents']
+            return response_dict
+        else:
+            raise RecordNotFound("No documents found")
+        
     def get_file_document(self, document_id):
         table_name = "document"
         column_name = "id"
@@ -509,6 +581,25 @@ class VectorDBProvider:
             return response_dict
         else:
             return None
+        
+    def get_file_document_by_name(self, file_id, name):
+        table_name = "document"
+        fields = ['id', 'file_id', 'name', 'description', 'url', 'created_at', 'updated_at']
+        query = sql.SQL('SELECT {fields} FROM {table} WHERE file_id = %s AND name = %s').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name),
+        )
+        try:
+            self.cursor.execute(query, (file_id, name,))
+
+            response = self.cursor.fetchone()
+        except Exception as e:
+            raise e
+        if response: 
+            response_dict = dict(zip(fields, response))
+            return response_dict
+        else:
+            raise RecordNotFound
         
     def create_file_document(self, file_id, name, description, contents, url):
         if not file_id or not name or not description or not contents or not url:
@@ -616,7 +707,7 @@ class VectorDBProvider:
     def list_document_segments(self, document_id):
         table_name = "segment"
         column_name = "document_id"
-        fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['id', 'document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
         query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             table=sql.Identifier(table_name),
@@ -634,7 +725,7 @@ class VectorDBProvider:
     def get_document_segment(self, segment_id):
         table_name = "segment"
         column_name = "id"
-        fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['id', 'document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
         query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             table=sql.Identifier(table_name),
@@ -649,28 +740,26 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Segment with id {segment_id} not found")
         
-    def create_document_segment(self, document_id, embedding, potential_questions, source_document_id, start_line, end_line, content):
-        if not document_id or not embedding or not potential_questions or not source_document_id or not start_line or not end_line or not content:
-            raise ValueError('Document id, embedding, potential questions, source document id, start line, end line, and content are required')
+    def create_document_segment(self, document_id,  content, embedding=None, potential_questions=None, start_line=None, end_line=None):
+        if not document_id or not content:
+            raise ValueError('Document id, potential questions, and content are required')
         if not isinstance(document_id, int):
             raise ValueError('Document id must be an integer')
-        if not isinstance(embedding, list):
+        if embedding and not isinstance(embedding, list):
             raise ValueError('Embedding must be a list')
-        if not isinstance(potential_questions, list):
+        if potential_questions and not isinstance(potential_questions, list):
             raise ValueError('Potential questions must be a list')
-        if not isinstance(source_document_id, int):
-            raise ValueError('Source document id must be an integer')
-        if not isinstance(start_line, int):
+        if start_line and not isinstance(start_line, int):
             raise ValueError('Start line must be an integer')
-        if not isinstance(end_line, int):
+        if end_line and not isinstance(end_line, int):
             raise ValueError('End line must be an integer')
         if not isinstance(content, str):
             raise ValueError('Content must be a string')
           
         table_name = "segment"
-        response_fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
-        fields = ['document_id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content']
-        values = [document_id, embedding, potential_questions, source_document_id, start_line, end_line, content]
+        response_fields = ['id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content']
+        values = [document_id, embedding, potential_questions, start_line, end_line, content]
         query = sql.SQL('INSERT INTO {table} ({fields}) VALUES ({values}) RETURNING {response_fields}').format(
             table=sql.Identifier(table_name),
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
@@ -771,3 +860,4 @@ class VectorDBProvider:
             raise RecordNotFound(f"Segment with id {segment_id} not found")
         else:
             return True
+        

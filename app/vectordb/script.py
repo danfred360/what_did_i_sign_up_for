@@ -1,54 +1,70 @@
 from provider import VectorDBProvider
+from loader import DocumentLoader
 from dotenv import load_dotenv
 
 load_dotenv()
 
-foo = VectorDBProvider()
+def init_file():
+    vectordb = VectorDBProvider()
+    vectordb.connect()
+    collection = vectordb.create_collection('Rental House', 'foobar')
+    file = vectordb.create_file(
+        collection['id'],
+        1,
+        'Rental Wifi Terms of Use',
+        'Terms of use for rental wifi',
+        'https://www.rentalwifi.com/terms_of_use'
+    )
+    vectordb.disconnect()
+    print(file)
 
-foo.connect()
+def get_segments(document_id: int):
+    document_id = document_id
 
-# collections = foo.list_collections()
-# print(collections)
+    vectordb = VectorDBProvider()
+    vectordb.connect()
+    segments = vectordb.list_document_segments(document_id)
+    vectordb.disconnect()
+    print(segments)
 
-# response = foo.create_collection('test_collection', 'test description')
-# print(response)
+def load_doc():
+    loader = DocumentLoader()
 
-# collections = foo.list_collections()
-# print(collections)
+    path = '/Users/dpfrederick/code/ai-consortium/what_did_i_sign_up_for/input_files/rental_wifi/terms_of_use.txt'
+    file_id = 5
+    name = 'Rental Wifi Terms of Use'
+    description = 'Terms of use for rental wifi'
+    url = 'https://www.rentalwifi.com/terms_of_use'
 
-# foobar = foo.get_collections([1, 2, 3])
-# print(foobar)
+    document = loader.load_document(
+        path, 
+        file_id, 
+        name, 
+        description, 
+        url, 
+        generate_embeddings = True
+    )
 
-# bar = foo.create_collection('test_collection', 'test description')
-# print(bar)
+    get_segments(document['id'])
 
-# yeet = foo.list_collections()
-# print(yeet)
+def load_documents_from_input_files_dir():
+    loader = DocumentLoader()
+    generate_embeddings = True
+    loader.load_documents_from_input_files_dir(generate_embeddings)
 
-# tear = foo.update_collection(7, 'test_collection_update', 'test description')
-# print(tear)
+def get_document_by_name(name: str):
+    vectordb = VectorDBProvider()
+    vectordb.connect()
+    document = vectordb.get_file_document_by_name(name)
+    vectordb.disconnect()
+    print(document)
 
-# print(foo.delete_collection(7))
+#init_file()
 
-# print(foo.create_file(
-#     3,
-#     1,
-#     'test_file',
-#     'test description',
-#     "Bananananananananananananana",
-#     'https://www.google.com'
-# ))
+# load_doc()
 
-# print(foo.get_file(5))
+# load_documents_from_input_files_dir()
 
-# print(foo.update_file(
-#     file_id=5,
-#     contents='foooooobar'
-# ))
+# get_segments(10)
 
-# print(foo.get_file(5))
-
-print(foo.get_file_class(1))
-
-
-foo.disconnect()
+get_document_by_name('foobar.txt')

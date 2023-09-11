@@ -38,10 +38,10 @@ CREATE TABLE document (
 CREATE TABLE segment (
     id SERIAL PRIMARY KEY,
     embedding VECTOR(1536),
-    potential_questions VECTOR(1536),
-    source_document_id INTEGER REFERENCES document(id),
-    start_line INTEGER,
-    end_line INTEGER,
+    potential_questions VECTOR(1536) NULL,
+    document_id INTEGER REFERENCES document(id),
+    start_line INTEGER NULL,
+    end_line INTEGER NULL,
     content TEXT,
     created_at TIMESTAMP DEFAULT NOW()
 );
