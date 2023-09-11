@@ -5,10 +5,13 @@ services:
     environment:
       VECTORDB_HOST: testing-vectordb
       VECTORDB_PORT: 5432
+      INPUT_FILES_DIRECTORY: /code/input_files
     env_file:
       - app.env
     ports:
       - 80:80
+    volumes:
+      - ./input_files:/code/input_files
 
   vectordb:
     container_name: testing-vectordb
