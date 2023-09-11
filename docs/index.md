@@ -36,3 +36,5 @@ docker run -d --name app -p 80:80 app
 
 ## resources
 - https://fastapi.tiangolo.com/tutorial/testing/
+- https://www.codewithfaraz.com/content/61/how-to-create-neobrutalism-sign-up-form-using-html-and-css-only
+- https://betterstack.com/community/guides/logging/how-to-start-logging-with-python/

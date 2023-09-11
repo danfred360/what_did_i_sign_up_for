@@ -1,17 +1,15 @@
-from typing import Annotated
-
-from fastapi import FastAPI, Header, HTTPException
+from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from .vectordb.routers.collection import collection_router
+from .vectordb.routers.file_class import file_class_router
+from .vectordb.routers.file import file_router
+from .vectordb.routers.search import search_router
+from .vectordb.routers.question import question_router
+from dotenv import load_dotenv
 import os
 
-fake_secret_token = "coneofsilence"
-
-fake_db = {
-    "foo": {"id": "foo", "title": "Foo", "description": "There goes my hero"},
-    "bar": {"id": "bar", "title": "Bar", "description": "The bartenders"},
-}
+load_dotenv()
 
 app = FastAPI()
 
@@ -24,24 +22,8 @@ async def redirect():
     response = RedirectResponse(url='/public')
     return response
 
-class Item(BaseModel):
-    id: str
-    title: str
-    description: str | None = None
-
-@app.get("/items/{item_id}", response_model=Item)
-async def read_main(item_id: str, x_token: Annotated[str, Header()]):
-    if x_token != fake_secret_token:
-        raise HTTPException(status_code=400, detail="Invalid X-Token header")
-    if item_id not in fake_db:
-        raise HTTPException(status_code=404, detail="Item not found")
-    return fake_db[item_id]
-
-@app.post("/items/", response_model=Item)
-async def create_item(item: Item, x_token: Annotated[str, Header()]):
-    if x_token != fake_secret_token:
-        raise HTTPException(status_code=400, detail="Invalid X-Token header")
-    if item.id in fake_db:
-        raise HTTPException(status_code=400, detail="Item already exists")
-    fake_db[item.id] = item
-    return item
+app.include_router(collection_router)
+app.include_router(file_class_router)
+app.include_router(file_router)
+app.include_router(search_router)
+app.include_router(question_router)
