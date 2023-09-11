@@ -15,7 +15,7 @@ class SearchQuery(BaseModel):
 
 class SearchResponse(BaseModel):
     count: int
-    results: dict
+    results: list[dict]
 
 search_responses= {
     500: {"description": "Server side error"},
@@ -148,11 +148,31 @@ async def search(search_query: SearchQuery):
         else:
             results = get_relevant_segments_by_document_id(search_query.query, search_query.document_id, search_query.num_results)
     except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        provider.disconnect()
+    return results
+
+@search_router.get("/documents", tags=['search'])
+async def list_documents():
+    provider = VectorDBProvider()
+    try:
+        provider.connect()
+        documents = provider.list_documents()
+    except Exception as e:
         provider.disconnect()
         raise HTTPException(status_code=500, detail=str(e))
     provider.disconnect()
-    return {
-        "count": len(results),
-        "results": results
-    }
-    # raise HTTPException(status_code=500, detail="Not implemented")
+    return documents
+
+@search_router.post("/documents", tags=['search'])
+async def get_document_by_name(name: str):
+    provider = VectorDBProvider()
+    try:
+        provider.connect()
+        document = provider.get_file_document_by_name(name)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        provider.disconnect()
+    return document

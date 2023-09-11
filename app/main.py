@@ -6,6 +6,7 @@ from .vectordb.routers.file_class import file_class_router
 from .vectordb.routers.file import file_router
 from .vectordb.routers.search import search_router
 from .vectordb.routers.question import question_router
+from .vectordb.routers.loader import loader_router
 from dotenv import load_dotenv
 import os
 
@@ -30,3 +31,4 @@ app.include_router(file_class_router)
 app.include_router(file_router)
 app.include_router(search_router)
 app.include_router(question_router)
+app.include_router(loader_router)

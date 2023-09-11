@@ -1,5 +1,5 @@
 from provider import VectorDBProvider
-from utility import DocumentLoader
+from loader import DocumentLoader
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -52,10 +52,19 @@ def load_documents_from_input_files_dir():
     generate_embeddings = True
     loader.load_documents_from_input_files_dir(generate_embeddings)
 
+def get_document_by_name(name: str):
+    vectordb = VectorDBProvider()
+    vectordb.connect()
+    document = vectordb.get_file_document_by_name(name)
+    vectordb.disconnect()
+    print(document)
+
 #init_file()
 
 # load_doc()
 
-load_documents_from_input_files_dir()
+# load_documents_from_input_files_dir()
 
 # get_segments(10)
+
+get_document_by_name('foobar.txt')
