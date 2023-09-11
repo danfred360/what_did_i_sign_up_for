@@ -10,8 +10,8 @@ def test_redirect():
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     assert b"<!DOCTYPE html>" in response.content
 
-def test_public_site():
-    response = client.get("/public")
+def test_staticapp():
+    response = client.get("/staticapp")
     assert response.status_code == 200
     assert response.headers["content-type"] == "text/html; charset=utf-8"
     assert b"<!DOCTYPE html>" in response.content

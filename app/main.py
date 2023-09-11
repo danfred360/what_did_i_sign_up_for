@@ -11,15 +11,18 @@ import os
 
 load_dotenv()
 
-app = FastAPI()
+app = FastAPI(
+    title="What did I sign up for?",
+    description="Ingest terms of use and privacy policies, semantic search, and question answering."
+)
 
 root = os.path.dirname(os.path.abspath(__file__))
 
-app.mount('/public', app=StaticFiles(directory='app/public', html=True), name='public')
+app.mount('/staticapp', app=StaticFiles(directory='app/public', html=True), name='public')
 
-@app.get("/")
+@app.get("/", tags=['root'])
 async def redirect():
-    response = RedirectResponse(url='/public')
+    response = RedirectResponse(url='/docs')
     return response
 
 app.include_router(collection_router)

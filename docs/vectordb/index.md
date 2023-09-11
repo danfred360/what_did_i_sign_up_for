@@ -47,41 +47,50 @@ erDiagram vectordb
         source_document_id int
         start_line int
         end_line int
-        content string
+        content text
+        created_at datetime
     }
 
     ENTITY document {
         id int
-        source_file_id int
-        title string
+        file_id int
+        name text
+        description text
+        url text
+        contents text
+        created_at datetime
+        updated_at datetime
     }
 
     ENTITY file {
         id int
-        url uri
-        name string
-        description string
-        contents string
-        class_id int
+        url text
+        name text
+        description text
+        created_at datetime
+        updated_at datetime
+        file_class_id int
+        collection_id int
     }
 
-    ENTITY class {
+    ENTITY file_class {
         id int
-        name string
-        description string
+        name text
+        description text
+        image_url text
     }
 
     ENTITY collection {
         id int
         parent_collection_id int
-        name string
-        description string
-        image uri
+        name text
+        description text
+        image_url text
     }
 
     segment ||--o{ document : "source_document_id"
     document ||--o{ file : "source_file_id"
-    file ||--o{ class : "class_id"
+    file ||--o{ file_class : "file_class_id"
     file ||--o{ collection : "collection_id"
     collection ||--o{ collection : "parent_collection_id"
 ```
