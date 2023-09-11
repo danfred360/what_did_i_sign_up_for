@@ -9,6 +9,10 @@ The purpose of this project is to provide a tool for understanding what you sign
 ## quickstart
 1. Create the `app.env` and `vectordb.env` files in the `deploy` directory. See the `app.env.example` and `vectordb.env.example` files for the required environment variables.
 
+The `POSTGRES_PASSWORD` in the `vectordb.env` file sets the password in the postgres container, so this should match the `POSTGRES_PASSWORD` in the `app.env` file.
+
+You will also need to add your openai api key to the `app.env` file.
+
 2. Run api and vectordb with docker compose
 ```bash
 cd deploy
