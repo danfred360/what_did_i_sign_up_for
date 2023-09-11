@@ -1,5 +1,3 @@
-from typing import Annotated
-
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
@@ -8,7 +6,6 @@ from .vectordb.routers.file_class import file_class_router
 from .vectordb.routers.file import file_router
 from .vectordb.routers.search import search_router
 from .vectordb.routers.question import question_router
-from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 

@@ -1,0 +1,7 @@
+[project]
+# Support Python 3.10+.
+requires-python = ">=3.10"
+
+[tool.ruff]
+line-length = 150
+src = ["src"]

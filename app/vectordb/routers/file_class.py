@@ -66,7 +66,7 @@ async def delete_file_class(file_class_id: int):
         provider.disconnect()
         raise HTTPException(status_code=404, detail="file class not found")
     provider.disconnect()
-    if response == True:
+    if response is True:
         return '', 204
     else:
         return HTTPException(status_code=500, detail="Something went wrong")

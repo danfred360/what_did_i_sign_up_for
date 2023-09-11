@@ -98,7 +98,7 @@ async def delete_file(file_id: int):
         provider.disconnect()
         raise HTTPException(status_code=404, detail="file not found")
     provider.disconnect()
-    if response == True:
+    if response is True:
         return Response(status_code=204)
 
 @file_router.post("/files", response_model=File, tags=['file'])

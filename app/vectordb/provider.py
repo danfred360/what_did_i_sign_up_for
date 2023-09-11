@@ -687,7 +687,15 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Segment with content {content} not created")
         
-    def update_document_segment(self, segment_id, embedding=None, potential_questions=None, source_document_id=None, start_line=None, end_line=None, content=None):
+    def update_document_segment(self, 
+        segment_id, 
+        embedding=None, 
+        potential_questions=None, 
+        source_document_id=None, 
+        start_line=None, 
+        end_line=None, 
+        content=None
+        ):
         if not segment_id:
             raise ValueError('Segment id is required')
         if not isinstance(segment_id, int):
@@ -743,7 +751,7 @@ class VectorDBProvider:
             response_dict = dict(zip(response_fields, response))
             return response_dict
         else:
-            raise RecordNotFound(f"Segment with id {segment} not found")
+            raise RecordNotFound(f"Segment with id {segment_id} not found")
         
     def delete_document_segment(self, segment_id):
         if not segment_id:

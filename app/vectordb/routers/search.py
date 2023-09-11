@@ -1,7 +1,5 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
-from ..provider import VectorDBProvider, RecordNotFound
-from datetime import datetime
 
 search_router = APIRouter()
 

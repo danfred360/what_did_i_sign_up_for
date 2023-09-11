@@ -48,7 +48,13 @@ async def list_collections():
 async def update_collection(collection_id: int, collection: UpdateCollection):
     provider = VectorDBProvider()
     provider.connect()
-    collection = provider.update_collection(collection_id, collection.name, collection.description, collection.parent_collection_id, collection.image_url)
+    collection = provider.update_collection(
+        collection_id, 
+        collection.name, 
+        collection.description, 
+        collection.parent_collection_id, 
+        collection.image_url
+    )
     provider.disconnect()
     if not collection:
         raise HTTPException(status_code=404, detail="Collection not found")
@@ -70,7 +76,7 @@ async def delete_collection(collection_id: int):
         provider.disconnect()
         raise HTTPException(status_code=404, detail="Collection not found")
     provider.disconnect()
-    if response == True:
+    if response is True:
         return Response(status_code=204)
     else:
         return HTTPException(status_code=500, detail="Something went wrong")
