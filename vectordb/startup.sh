@@ -12,15 +12,17 @@ EOSQL
 
 echo "running sql init files"
 # run sql init files
+echo "loading extensions..."
 "${psql[@]}" --dbname="vectordb" -f /sqlscripts/load_extensions.sql
+echo "creating tables..."
 "${psql[@]}" --dbname="vectordb" -f /sqlscripts/create_tables.sql
 
-echo "print tables in vectordb"
+echo "tables in vectordb -->"
 "${psql[@]}" --dbname="vectordb" <<-EOSQL 
     \dt; 
 EOSQL
 
-# echo "seeding data"
+echo "seeding data..."
 "${psql[@]}" --dbname="vectordb" -f /sqlscripts/seed.sql
 
 # Run the original entrypoint script
