@@ -1,0 +1,22 @@
+services:
+  app:
+    container_name: testing-app
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-app:main
+    environment:
+      VECTORDB_HOST: testing-vectordb
+      VECTORDB_PORT: 5432
+    env_file:
+      - app.env
+    ports:
+      - 80:80
+
+  vectordb:
+    container_name: testing-vectordb
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:main
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    env_file:
+      - vectordb.env
+    ports:
+      - 5432:5432
