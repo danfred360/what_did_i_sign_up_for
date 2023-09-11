@@ -616,7 +616,7 @@ class VectorDBProvider:
     def list_document_segments(self, document_id):
         table_name = "segment"
         column_name = "document_id"
-        fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['id', 'document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
         query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             table=sql.Identifier(table_name),
@@ -634,7 +634,7 @@ class VectorDBProvider:
     def get_document_segment(self, segment_id):
         table_name = "segment"
         column_name = "id"
-        fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['id', 'document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
         query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             table=sql.Identifier(table_name),
@@ -649,28 +649,26 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Segment with id {segment_id} not found")
         
-    def create_document_segment(self, document_id, embedding, potential_questions, source_document_id, start_line, end_line, content):
-        if not document_id or not embedding or not potential_questions or not source_document_id or not start_line or not end_line or not content:
-            raise ValueError('Document id, embedding, potential questions, source document id, start line, end line, and content are required')
+    def create_document_segment(self, document_id,  content, embedding=None, potential_questions=None, start_line=None, end_line=None):
+        if not document_id or not content:
+            raise ValueError('Document id, potential questions, and content are required')
         if not isinstance(document_id, int):
             raise ValueError('Document id must be an integer')
-        if not isinstance(embedding, list):
+        if embedding and not isinstance(embedding, list):
             raise ValueError('Embedding must be a list')
-        if not isinstance(potential_questions, list):
+        if potential_questions and not isinstance(potential_questions, list):
             raise ValueError('Potential questions must be a list')
-        if not isinstance(source_document_id, int):
-            raise ValueError('Source document id must be an integer')
-        if not isinstance(start_line, int):
+        if start_line and not isinstance(start_line, int):
             raise ValueError('Start line must be an integer')
-        if not isinstance(end_line, int):
+        if end_line and not isinstance(end_line, int):
             raise ValueError('End line must be an integer')
         if not isinstance(content, str):
             raise ValueError('Content must be a string')
           
         table_name = "segment"
-        response_fields = ['id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content', 'created_at']
-        fields = ['document_id', 'embedding', 'potential_questions', 'source_document_id', 'start_line', 'end_line', 'content']
-        values = [document_id, embedding, potential_questions, source_document_id, start_line, end_line, content]
+        response_fields = ['id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content', 'created_at']
+        fields = ['document_id', 'embedding', 'potential_questions', 'start_line', 'end_line', 'content']
+        values = [document_id, embedding, potential_questions, start_line, end_line, content]
         query = sql.SQL('INSERT INTO {table} ({fields}) VALUES ({values}) RETURNING {response_fields}').format(
             table=sql.Identifier(table_name),
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
