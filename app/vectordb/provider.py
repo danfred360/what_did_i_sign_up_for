@@ -769,3 +769,4 @@ class VectorDBProvider:
             raise RecordNotFound(f"Segment with id {segment_id} not found")
         else:
             return True
+        

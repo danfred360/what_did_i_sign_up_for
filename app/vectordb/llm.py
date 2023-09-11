@@ -1,7 +1,7 @@
 import os
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
-from provider import VectorDBProvider, RecordNotFound
+from .provider import VectorDBProvider, RecordNotFound
 
 class LLMProvider:
     def __init__(self):
