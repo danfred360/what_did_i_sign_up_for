@@ -1,3 +1,4 @@
 app.env
 vectordb.env
 data/**
+input_files/**

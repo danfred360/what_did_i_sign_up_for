@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'app/**'
+      - 'requirements.txt'
   workflow_dispatch:
 
 jobs:
