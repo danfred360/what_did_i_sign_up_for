@@ -1,7 +1,7 @@
 services:
   app:
     container_name: testing-app
-    image: ghcr.io/danfred360/what_did_i_sign_up_for-app:main
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-app:latest
     environment:
       VECTORDB_HOST: testing-vectordb
       VECTORDB_PORT: 5432
@@ -15,7 +15,7 @@ services:
 
   vectordb:
     container_name: testing-vectordb
-    image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:main
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:latest
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
