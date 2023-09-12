@@ -582,6 +582,26 @@ class VectorDBProvider:
         else:
             return None
         
+    def get_file_document_name_by_id(self, id: int):
+        table_name = "document"
+        column_name = "id"
+        fields = ['name']
+        query = sql.SQL('SELECT {fields} FROM {table} WHERE {column} = %s').format(
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            table=sql.Identifier(table_name),
+            column=sql.Identifier(column_name)
+        )
+        try:
+            self.cursor.execute(query, (id,))
+            response = self.cursor.fetchone()
+        except Exception as e:
+            raise e
+        if response: 
+            response_dict = dict(zip(fields, response))
+            return response_dict
+        else:
+            raise RecordNotFound
+        
     def get_file_document_by_name(self, file_id, name):
         table_name = "document"
         fields = ['id', 'file_id', 'name', 'description', 'url', 'created_at', 'updated_at']
