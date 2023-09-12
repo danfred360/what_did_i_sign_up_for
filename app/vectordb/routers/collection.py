@@ -44,6 +44,14 @@ async def list_collections():
         raise HTTPException(status_code=404, detail="Collections not found")
     return collections
 
+@collection_router.post("/collections/", response_model=Collection, tags=['collection'])
+async def create_collection(collection: CreateCollection):
+    provider = VectorDBProvider()
+    provider.connect()
+    collection = provider.create_collection(collection.name, collection.description, collection.parent_collection_id, collection.image_url)
+    provider.disconnect()
+    return collection
+
 @collection_router.patch("/collections/{collection_id}/update", response_model=Collection, tags=['collection'])
 async def update_collection(collection_id: int, collection: UpdateCollection):
     provider = VectorDBProvider()
@@ -80,11 +88,3 @@ async def delete_collection(collection_id: int):
         return Response(status_code=204)
     else:
         return HTTPException(status_code=500, detail="Something went wrong")
-
-@collection_router.post("/collections/", response_model=Collection, tags=['collection'])
-async def create_collection(collection: CreateCollection):
-    provider = VectorDBProvider()
-    provider.connect()
-    collection = provider.create_collection(collection.name, collection.description, collection.parent_collection_id, collection.image_url)
-    provider.disconnect()
-    return collection
