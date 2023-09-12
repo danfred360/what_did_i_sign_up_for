@@ -7,7 +7,7 @@ The purpose of this project is to provide a tool for understanding what you sign
 **Table of Contents**
 - [terms](#terms)
 - [local developement](#local-developement)
-    - [app](#app)
+    - [api](#api)
     - [vectordb](#vectordb)
     - [build docker containers locally](#build-docker-containers-locally)
 - [static site](#static-site)
@@ -31,7 +31,7 @@ A segment is a component of a document that is used to generate embeddings. The 
 
 ## local developement
 
-### app
+### api
 ```bash
 # initialize virtual environment
 python -m venv venv
@@ -41,7 +41,7 @@ python -m venv venv
 pip install -r requirements.txt
 
 # run
-uvicorn app.main:app --reload
+uvicorn api.main:app --reload
 ```
 
 See swagger page [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
@@ -49,13 +49,13 @@ See swagger page [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
 local checks
 ```bash
 # run tests
-pytest app
+pytest api
 
 # run linter
-ruff check app
+ruff check api
 ```
 
-See [the app docs](./app/index.md) for more information.
+See [the api docs](./api/index.md) for more information.
 
 ### vectordb
 ```
@@ -67,12 +67,12 @@ See [the vectordb docs](./vectordb/index.md) for more information.
 
 ### build docker containers locally
 ```bash
-cd app
+cd api
 # build image
-docker build -t app .
+docker build -t api .
 
 # run container
-docker run -d --name app -p 80:80 app
+docker run -d --name api -p 80:80 api
 ```
 
 ## static site
