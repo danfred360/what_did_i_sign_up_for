@@ -4,7 +4,6 @@ from langchain.document_loaders import AsyncHtmlLoader
 from langchain.document_transformers import BeautifulSoupTransformer
 from .provider import VectorDBProvider, RecordNotFound
 from .llm import LLMProvider
-from datetime import datetime
 
 class DocumentLoader():
     def __init__(self):
