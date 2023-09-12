@@ -40,6 +40,17 @@ async def list_file_classes():
         raise HTTPException(status_code=404, detail="file classes not found")
     return file_classes
 
+@file_class_router.post("/file_classes/", response_model=FileClass, tags=['file_class'])
+async def create_file_class(file_class: CreateFileClass):
+    provider = VectorDBProvider()
+    provider.connect()
+    file_class = provider.create_file_class(file_class.name, file_class.description, file_class.image_url)
+    provider.disconnect()
+    if not file_class:
+        raise HTTPException(status_code=500, detail="Something went wrong")
+    else:
+        return file_class
+
 @file_class_router.patch("/file_classes/{file_class_id}/update", response_model=FileClass, tags=['file_class'])
 async def update_file_class(file_class_id: int, file_class: UpdateFileClass):
     provider = VectorDBProvider()
@@ -70,14 +81,3 @@ async def delete_file_class(file_class_id: int):
         return '', 204
     else:
         return HTTPException(status_code=500, detail="Something went wrong")
-
-@file_class_router.post("/file_classes/", response_model=FileClass, tags=['file_class'])
-async def create_file_class(file_class: CreateFileClass):
-    provider = VectorDBProvider()
-    provider.connect()
-    file_class = provider.create_file_class(file_class.name, file_class.description, file_class.image_url)
-    provider.disconnect()
-    if not file_class:
-        raise HTTPException(status_code=500, detail="Something went wrong")
-    else:
-        return file_class
