@@ -5,6 +5,7 @@ on:
     paths:
       - 'api/**'
       - 'requirements.txt'
+      - 'Dockerfile'
   workflow_dispatch:
 
 env:
