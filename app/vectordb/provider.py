@@ -429,20 +429,7 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"File with name {name} not found")
         
-    def create_file(self, collection_id, file_class_id, name, description, url):
-        if not collection_id or not file_class_id or not name or not description or not url:
-            raise ValueError('Collection id, file_class_id, name, description, and file url are required')
-        if not isinstance(collection_id, int):
-            raise ValueError('Collection id must be an integer')
-        if not isinstance(file_class_id, int):
-            raise ValueError('file_class id must be an integer')
-        if not isinstance(name, str):
-            raise ValueError('Name must be a string')
-        if not isinstance(description, str):
-            raise ValueError('Description must be a string')
-        if not isinstance(url, str):
-            raise ValueError('File url must be a string')
-          
+    def create_file(self, collection_id: int, file_class_id: int, name: str, description: str, url: str):
         table_name = "file"
         response_fields = ['id', 'collection_id', 'file_class_id', 'name', 'description', 'url', 'created_at', 'updated_at']
         fields = ['collection_id', 'file_class_id', 'name', 'description', 'url']
@@ -653,7 +640,7 @@ class VectorDBProvider:
             response_dict = dict(zip(response_fields, response))
             return response_dict
         else:
-            raise RecordNotFound(f"Document with name {name} not created")
+            raise Exception(f"Failed to create document with name {name} not created")
         
     def update_file_document(self, document_id, name=None, description=None, contents=None, url=None):
         if not document_id:
