@@ -1,7 +1,7 @@
 from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import (ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate)
 from langchain.chains import LLMChain
-from .provider import VectorDBProvider, RecordNotFound
+from .provider import VectorDBProvider
 from .search import SearchProvider
 import logging
 
