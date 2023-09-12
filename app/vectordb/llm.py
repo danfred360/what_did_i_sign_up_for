@@ -2,13 +2,18 @@ import os
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from .provider import VectorDBProvider, RecordNotFound
+import logging
 
 class LLMProvider:
     def __init__(self):
         self.embeddings_model = OpenAIEmbeddings(openai_api_key=os.environ.get('OPENAI_API_KEY'))
 
     def get_embedding(self, text: str):
-        embedding = self.embeddings_model.embed_query(text)
+        try:
+            embedding = self.embeddings_model.embed_query(text)
+        except Exception as e:
+            logging.error(f'llm provider error: {e}')
+            raise e
         return embedding
     
     def get_embeddings(self, texts: list[str]):
@@ -36,6 +41,9 @@ class LLMProvider:
             return False
         vectordb.disconnect()
         return True
+    
+    def generate_possible_question_embeddings_for_segment(self, segment_id: int):
+        raise NotImplementedError
     
     def generate_segments_for_document(self, document_id: int, generate_embeddings: bool = True):
         vectordb = VectorDBProvider()

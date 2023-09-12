@@ -4,6 +4,7 @@ from fastapi.staticfiles import StaticFiles
 from .vectordb.routers.collection import collection_router
 from .vectordb.routers.file_class import file_class_router
 from .vectordb.routers.file import file_router
+from .vectordb.routers.document import document_router
 from .vectordb.routers.search import search_router
 from .vectordb.routers.question import question_router
 from .vectordb.routers.loader import loader_router
@@ -19,16 +20,17 @@ app = FastAPI(
 
 root = os.path.dirname(os.path.abspath(__file__))
 
-app.mount('/staticapp', app=StaticFiles(directory='app/public', html=True), name='public')
-
-@app.get("/", tags=['root'])
-async def redirect():
-    response = RedirectResponse(url='/docs')
-    return response
-
-app.include_router(collection_router)
-app.include_router(file_class_router)
-app.include_router(file_router)
 app.include_router(search_router)
 app.include_router(question_router)
 app.include_router(loader_router)
+app.include_router(document_router)
+app.include_router(file_router)
+app.include_router(collection_router)
+app.include_router(file_class_router)
+
+app.mount('/staticapp', app=StaticFiles(directory='app/public', html=True), name='public')
+
+@app.get("/", tags=['root'])
+async def redirect_to_swagger():
+    response = RedirectResponse(url='/docs')
+    return response
