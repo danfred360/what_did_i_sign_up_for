@@ -20,7 +20,23 @@ docker compose up
 ```
 Access swagger page at [localhost](http://localhost).
 
-3. Add documents to the `deploy/input_files` directory. The directory structure is as follows:
+3. Send a `GET` request to localhost/loader/load_url with the url of the file to load. This will return the id of the file that can be used in the next steps for semantic search and question answering using only that file.
+
+![load file from url](./docs/.assets/load-file-from-url-swagger.png)
+
+4. Send a `GET` request to localhost/search with the query in the url params to preform a global search (include all files in context). You can also search by collection, file class, file, and document.
+
+![search](./docs/.assets/search-swagger.png)
+
+You can also send a `GET` request to localhost/question to ask chatgpt a question about all of the loaded files. You can also specify the collection, file class, file, or document to search in.
+
+![good question](./docs/.assets/good-question-swagger.png)
+
+If the question cannot be answered based on the documents, the response will be `I don't have enough information to answer the question.`
+
+![bad question](./docs/.assets/bad-question-swagger.png)
+## load documents from input directory
+1. Add documents to the `deploy/input_files` directory. The directory structure is as follows:
 ```
 input_files
 ├── collection
@@ -32,20 +48,8 @@ For example, to add a terms of service document for x.com, add the text file to 
 
 The collection name, file name, and document name will be inferred from the directory structure. The possible file classes are `terms_of_service`, `privacy_policy`, and `other`. Any other name for the file_class directory will be added as `other`.
 
-4. Send a `GET` request to localhost/loader to trigger the document loader.
+2. Send a `GET` request to localhost/loader to trigger the document loader.
 
 ![loader](./docs/.assets/loader-swagger.png)
 
 The response contains a list of ids and names of the documents that were added.
-
-5. Send a `GET` request to localhost/search with the query in the url params to return relevant document segments for the query. You can search by collection, file class, file, and document.
-
-![search](./docs/.assets/search-swagger.png)
-
-You can also send a `GET` request to localhost/question to ask chatgpt a question about the documents. You can specify the collection, file class, file, or document to search in.
-
-![good question](./docs/.assets/good-question-swagger.png)
-
-If the question cannot be answered based on the documents, the response will be `I don't have enough information to answer the question.`
-
-![bad question](./docs/.assets/bad-question-swagger.png)
