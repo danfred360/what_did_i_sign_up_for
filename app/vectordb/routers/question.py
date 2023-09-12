@@ -1,15 +1,11 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from ..llm import LLMProvider
 
 question_router = APIRouter()
 
-class Question(BaseModel):
-    query: str
-    filters: dict | None = None
-
 class QuestionResponse(BaseModel):
-    count: int
-    results: list[dict]
+    answer: str
 
 question_responses= {
     500: {"description": "Not implemented"}
@@ -17,6 +13,11 @@ question_responses= {
 
 # given input query, return answer to question (if possible using source documents) and citations
 
-@question_router.post("/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question(question_query: Question):
-    raise HTTPException(status_code=500, detail="Not implemented")
+@question_router.get("/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
+async def question(question: str):
+    llm = LLMProvider()
+    try:
+        answer = llm.answer_question(question)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error answering question: {e}")
+    return answer
