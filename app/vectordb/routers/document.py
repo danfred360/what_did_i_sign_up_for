@@ -1,18 +1,7 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 from ..provider import VectorDBProvider
-document_router = APIRouter()
-from datetime import datetime
 
-class Document(BaseModel):
-    id: int
-    file_id: int
-    name: str
-    description: str | None = None
-    contents: str | None = None
-    url: str
-    created_at: datetime
-    updated_at: datetime
+document_router = APIRouter()
 
 @document_router.get("/documents", tags=['document'])
 async def list_documents():

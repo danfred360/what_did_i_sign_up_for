@@ -1,5 +1,3 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
 from psycopg2 import sql, Error as psycopg2Error
 import logging
 from .provider import VectorDBProvider
@@ -141,7 +139,13 @@ class SearchProvider:
         finally:
             self.vectordb.disconnect()
 
-    def get_relevant_segments_by_collection_id(self, input_query: str, collection_id: int, num_segments: int = 5, embedding_column: str = 'embedding'):
+    def get_relevant_segments_by_collection_id(
+            self, 
+            input_query: str, 
+            collection_id: int,
+            num_segments: int = 5, 
+            embedding_column: str = 'embedding'
+        ):
         fields = ['id', 'document_id', 'content', 'created_at']
         segments_query = """
             SELECT segment.id, document_id, segment.content, segment.created_at, {embedding_column}
@@ -186,7 +190,13 @@ class SearchProvider:
         finally:
             self.vectordb.disconnect()
 
-    def get_relevant_segments_by_file_class_id(self, input_query: str, file_class_id: int, num_segments: int = 5, embedding_column: str = 'embedding'):
+    def get_relevant_segments_by_file_class_id(
+            self, 
+            input_query: str, 
+            file_class_id: int, 
+            num_segments: int = 5, 
+            embedding_column: str = 'embedding'
+        ):
         fields = ['id', 'document_id', 'content', 'created_at']
         segments_query = """
             SELECT segment.id, document_id, segment.content, segment.created_at, {embedding_column}
