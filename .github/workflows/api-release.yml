@@ -1,4 +1,4 @@
-name: app release
+name: api release
 on:
   push:
     branches: ['main']
