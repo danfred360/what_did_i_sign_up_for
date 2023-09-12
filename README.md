@@ -38,6 +38,14 @@ The collection name, file name, and document name will be inferred from the dire
 
 The response contains a list of ids and names of the documents that were added.
 
-5. Send a `GET` request with the query in the url params to return relevant document segments for the query.
+5. Send a `GET` request to localhost/search with the query in the url params to return relevant document segments for the query. You can search by collection, file class, file, and document.
 
 ![search](./docs/.assets/search-swagger.png)
+
+You can also send a `GET` request to localhost/question to ask chatgpt a question about the documents. You can specify the collection, file class, file, or document to search in.
+
+![good question](./docs/.assets/good-question-swagger.png)
+
+If the question cannot be answered based on the documents, the response will be `I don't have enough information to answer the question.`
+
+![bad question](./docs/.assets/bad-question-swagger.png)
