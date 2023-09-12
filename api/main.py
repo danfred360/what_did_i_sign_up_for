@@ -28,7 +28,7 @@ app.include_router(file_router)
 app.include_router(collection_router)
 app.include_router(file_class_router)
 
-app.mount('/staticapp', app=StaticFiles(directory='app/public', html=True), name='public')
+app.mount('/staticapp', app=StaticFiles(directory='api/public', html=True), name='public')
 
 @app.get("/", tags=['root'])
 async def redirect_to_swagger():
