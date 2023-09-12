@@ -3,8 +3,8 @@ VALUES
     (NULL, 'Default', 'Default collection', 'https://example.com/collection1.jpg'),
     (NULL, 'Social Media', 'Social media companies', 'https://example.com/collection1.jpg'),
     (2, 'Twitter', 'x.com', 'https://example.com/collection2.jpg'),
-    (2, 'Facebook', 'meta and stuff', 'https://example.com/collection3.jpg');
-    (1, 'OpenAI', 'OpenAI stuff', 'https://openai.com')
+    (2, 'Facebook', 'meta and stuff', 'https://example.com/collection3.jpg'),
+    (1, 'OpenAI', 'OpenAI stuff', 'https://openai.com');
 
 INSERT INTO file_class (name, description, image_url)
 VALUES
