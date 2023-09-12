@@ -1,12 +1,16 @@
 import os
 from langchain.embeddings import OpenAIEmbeddings
+from langchain.chat_models import ChatOpenAI
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.chains import create_extraction_chain
+from openai.error import RateLimitError
 from .provider import VectorDBProvider, RecordNotFound
 import logging
 
 class LLMProvider:
     def __init__(self):
         self.embeddings_model = OpenAIEmbeddings(openai_api_key=os.environ.get('OPENAI_API_KEY'))
+        self.llm = ChatOpenAI(temperature=0, model='gpt-3.5-turbo')
 
     def get_embedding(self, text: str):
         try:
@@ -93,3 +97,12 @@ class LLMProvider:
                 vectordb.disconnect()
 
         return True
+    
+    def extract_document_metadata(self, content: str, schema: dict):
+        try:
+            metadata = create_extraction_chain(schema=schema, llm=self.llm).run(content)
+        except RateLimitError as e:
+            raise e
+        except Exception as e:
+            raise e
+        return metadata
