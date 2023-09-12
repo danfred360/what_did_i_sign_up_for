@@ -1,0 +1,23 @@
+FastAPI is a modern web framework for building RESTful APIs in Python. It was first released in 2018 and has quickly gained popularity among developers due to its ease of use, speed and robustness.
+
+FastAPI is based on Pydantic and uses type hints to validate, serialize and deserialize data. It also automatically generates OpenAPI documentation for APIs built with it.[3]
+
+FastAPI fully supports asynchronous programming and can run on Gunicorn and ASGI servers such as Uvicorn and Hypercorn,[4]making it a good choice for production environments. To improve developer-friendliness, editor support was considered since the project's earliest days.[5][6]
+
+Adoption and real-world usage
+FastAPI was the third most loved web framework in Stack Overflow 2021 Developer Survey.[7]
+
+T. Danka stressed its value for data science applications.[8]
+
+Large companies like Uber and Netflix use it to develop some of their applications.[9][10]
+
+Example
+The following code shows a simple web application that displays "Hello World!" when visited:[11]
+
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+def read_root():
+    return "Hello World!"
