@@ -1,8 +1,17 @@
 # in progress
 
+## up next
 - app
-  - split documents into segments
-  - semantic search using vectordb provider
+  - question answering
+    - return citations with answer
+    - generate questions that are relevant to a segment and create an embedding for each question to store with the segment
+  - support filtering results by collection, class_id, file, or document
+    - support filtering by a combination of these?
+  - return confidence score with each result
+    - how close it was to the query
+    - if the question was answered
+  - improve exception handling in vectordb provider
+  - improve logging
   - improve test coverage
   - harden production deployment
 - vectordb
@@ -14,4 +23,3 @@
         - need access to cloudflare to add dns records for letsencrypt
 - deploy
   - kubernetes?
-  - build docker containers for multiple chip architectures (may only currently support arm64 becuase I'm developing on a Mac M2)

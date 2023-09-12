@@ -42,8 +42,8 @@ select * from table_name;
 erDiagram vectordb
     ENTITY segment {
         id int
-        embedding vector
-        potential_questions vector
+        embedding vector(1536)
+        potential_questions vector(1536)
         source_document_id int
         start_line int
         end_line int
