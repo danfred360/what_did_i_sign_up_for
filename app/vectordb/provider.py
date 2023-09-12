@@ -464,7 +464,7 @@ class VectorDBProvider:
         
         table_name = "file"
         column_name = "id"
-        response_fields = ['id', 'collection_id', 'name', 'description', 'url']
+        response_fields = ['id', 'collection_id', 'name', 'description', 'url', 'created_at', 'updated_at']
         fields = ['updated_at']
         values = [datetime.now()]
         if name:
@@ -476,7 +476,14 @@ class VectorDBProvider:
         if url:
             fields.append('url')
             values.append(url)
-        query = sql.SQL('UPDATE {table} SET ({fields}) = ({values}) WHERE {column} = %s RETURNING {response_fields}').format(
+        update_query = """
+            UPDATE {table}
+            SET ({fields}) = (
+                SELECT {values} 
+                WHERE {column} = %s)
+            RETURNING {response_fields}
+        """
+        query = sql.SQL(update_query).format(
             table=sql.Identifier(table_name),
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             values=sql.SQL(',').join(map(sql.Literal, values)),
