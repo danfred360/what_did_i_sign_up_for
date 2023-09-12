@@ -59,18 +59,18 @@ class SearchProvider:
 
         search_query = """
             SELECT {fields}
-            FROM ({base_query}) AS relevant_segments
-            ORDER BY {embedding_column_name} <-> CAST(%s AS vector)
+            FROM ({select_query}) AS relevant_segments
+            ORDER BY {embedding_column} <-> CAST(%s AS vector)
             LIMIT %s
         """
 
         query = sql.SQL(search_query).format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
-            base_query=sql.SQL(select_query).format(
+            select_query=sql.SQL(select_query).format(
                 fields=sql.SQL(',').join(map(sql.Identifier, fields)),
                 table=sql.Identifier(table_name)
             ),
-            embedding_column_name=sql.Identifier(embedding_column_name)
+            embedding_column=sql.Identifier(embedding_column_name)
         )
 
         try:
@@ -92,32 +92,24 @@ class SearchProvider:
             self.vectordb.disconnect()
 
     def get_relevant_segments_by_file_id(self, input_query: str, file_id: int, num_segments: int = 5, embedding_column: str = 'embedding'):
-        table_name = "segment"
-        fields = ['id', 'document_id', 'content', embedding_column, 'created_at']
-        documents_query = """
-            SELECT id
-            FROM document
-            WHERE file_id = %s
-        """
+        fields = ['id', 'document_id', 'content', 'created_at', embedding_column]
         segments_query = """
-            SELECT {fields}
-            FROM {table}
-            WHERE document_id IN ({documents_query})
+            SELECT segment.id, document_id, segment.content, segment.created_at, {embedding_column}
+            FROM segment
+            JOIN document ON segment.document_id = document.id
+            WHERE document.file_id = %s
         """
         search_query = """
-            SELECT {fields}
+            SELECT *
             FROM ({segments_query}) AS relevant_segments
-            ORDER BY {embedding_column_name} <-> CAST(%s AS vector)
+            ORDER BY {embedding_column} <-> CAST(%s AS vector)
             LIMIT %s
         """
         query = sql.SQL(search_query).format(
-            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             segments_query=sql.SQL(segments_query).format(
-                fields=sql.SQL(',').join(map(sql.Identifier, fields)),
-                table=sql.Identifier(table_name),
-                documents_query=sql.SQL(documents_query)
+                embedding_column=sql.Identifier(embedding_column)
             ),
-            embedding_column_name=sql.Identifier(embedding_column)
+            embedding_column=sql.Identifier(embedding_column)
         )
 
         try:
@@ -131,7 +123,7 @@ class SearchProvider:
             return {'count': len(results), 'results': results}
         except psycopg2Error as e:
             logging.error(f"Error executing query: {e}")
-            logging.info(f"Query: {query.as_string(self.vectordb.cursor)}")
+            logging.error(f"Query: {query.as_string(self.vectordb.cursor)}")
             raise e
         except Exception as e:
             raise e
