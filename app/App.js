@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, SafeAreaView, ScrollView, TextInput, Button, ActivityIndicator, View } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ScrollView, TextInput, Button, ActivityIndicator, View, Platform, Dimensions } from 'react-native';
 
 function SearchResults({ results }) {
   return (
@@ -44,13 +44,28 @@ const styles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
     marginBottom: 10,
+    borderRadius: 20,
+    overflow: 'hidden',
+    ...Platform.select({
+      ios: {
+        borderWidth: 1,
+        borderColor: 'gray',
+      },
+      android: {
+        borderColor: 'gray',
+        borderWidth: 1,
+      },
+    }),
   },
   searchBar: {
     flex: 1,
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+    paddingHorizontal: 10,
+    borderRadius: 20,
     marginRight: 10,
+  },
+  searchButton: {
+    borderRadius: 20,
     paddingHorizontal: 10,
   },
   resultsContainer: {
@@ -119,17 +134,20 @@ export default function App() {
     setIsLoading(false);
   };
 
+  const windowWidth = Dimensions.get('window').width;
+  const searchBarWidth = windowWidth - 40;
+
   return (
     <SafeAreaView style={parentStyles.parentContainer}>
       <View style={styles.container}>
-        <View style={styles.searchContainer}>
+        <View style={[styles.searchContainer, { width: searchBarWidth }]}>
           <TextInput
             style={styles.searchBar}
             placeholder="Search..."
             value={searchTerm}
             onChangeText={(text) => setSearchTerm(text)}
           />
-          <Button title="Search" onPress={handleSearch} />
+          <Button title="Search" onPress={handleSearch} style={styles.searchButton} />
         </View>
         {isLoading && <ActivityIndicator style={styles.loading} />}
         {searchResults && <SearchResults results={searchResults} />}
