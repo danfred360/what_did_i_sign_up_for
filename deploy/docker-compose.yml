@@ -3,7 +3,7 @@ services:
     container_name: api
     image: ghcr.io/danfred360/what_did_i_sign_up_for-api:latest
     environment:
-      VECTORDB_HOST: testing-vectordb
+      VECTORDB_HOST: vectordb
       VECTORDB_PORT: 5432
       INPUT_FILES_DIRECTORY: /code/input_files
     env_file:
