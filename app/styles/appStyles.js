@@ -1,4 +1,6 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width - 40;;
 
 const appStyles = StyleSheet.create({
   parentContainer: {
@@ -21,6 +23,7 @@ const appStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    width: windowWidth
   },
   searchButton: {
     backgroundColor: '#FFEB3B', // yellow button
