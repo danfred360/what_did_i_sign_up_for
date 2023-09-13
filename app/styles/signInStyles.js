@@ -12,6 +12,7 @@ const signInStyles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 24,
+    textAlign: 'center',
   },
   form: {
     width: '80%',
@@ -32,6 +33,7 @@ const signInStyles = StyleSheet.create({
     marginVertical: 8,
     width: '100%',
     alignItems: 'center',
+    textAlign: 'center',
   },
   buttonText: {
     color: '#fff',
