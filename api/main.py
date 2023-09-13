@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
 from .vectordb.routers.collection import collection_router
 from .vectordb.routers.file_class import file_class_router
 from .vectordb.routers.file import file_router
@@ -16,6 +17,20 @@ load_dotenv()
 app = FastAPI(
     title="What did I sign up for?",
     description="Ingest terms of use and privacy policies, semantic search, and question answering."
+)
+
+origins = [
+    "http://localhost",
+    "http://localhost:8000",
+    "http://localhost:19006"
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
 )
 
 root = os.path.dirname(os.path.abspath(__file__))
