@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './views/Home';
@@ -11,20 +12,29 @@ const Drawer = createDrawerNavigator();
 export default function App() {
   const [token, setToken] = useState(null);
 
-  const handleSignIn = async (username, password) => {
-    const response = await fetch('http://localhost:8001/token', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Basic ${btoa(`${username}:${password}`)}`
+  useEffect(() => {
+    const fetchToken = async () => {
+      const storedToken = await AsyncStorage.getItem('token');
+      if (storedToken) {
+        setToken(storedToken);
       }
-    });
-    const data = await response.json();
-    setToken(data.access_token);
-  }
+    };
+    fetchToken();
+  }, []);
+
+  const storeToken = async (value) => {
+    await AsyncStorage.setItem('token', value);
+    setToken(value);
+  };
+
+  const handleSignOut = async () => {
+    await AsyncStorage.removeItem('token');
+    setToken(null);
+  };
 
   if (!token) {
     return (
-      <SignIn onSignIn={handleSignIn} />
+      <SignIn onTokenReceived={storeToken} />
     );
   }
 
@@ -34,6 +44,10 @@ export default function App() {
         <Drawer.Screen name="Home" component={Home} />
         <Drawer.Screen name="Files" component={Files} />
         <Drawer.Screen name="About" component={About} />
+        <Drawer.Screen name="Sign Out" component={() => {
+          handleSignOut();
+          return null;
+        }} />
       </Drawer.Navigator>
     </NavigationContainer>
   );

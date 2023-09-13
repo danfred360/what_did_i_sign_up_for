@@ -36,6 +36,18 @@ const signInStyles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  errorCard: {
+    backgroundColor: '#f8d7da',
+    borderWidth: 1,
+    borderColor: '#f5c6cb',
+    borderRadius: 4,
+    padding: 8,
+    marginTop: 8,
+  },
+  errorText: {
+    color: '#721c24',
+    fontSize: 14,
+  },
 });
 
 export default signInStyles;
