@@ -7,6 +7,7 @@ const appStyles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#D1C4E9', // light purple background
     padding: 20,
+    paddingTop: 20
   },
   container: {
     backgroundColor: '#B39DDB', // slightly darker purple
