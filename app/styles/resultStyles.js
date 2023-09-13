@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 
 const resultStyles = StyleSheet.create({
   resultsContainer: {
-    backgroundColor: '#f2f2f2',
+    backgroundColor: '#fff',
     borderRadius: 20,
     padding: 10,
     margin: 10,
@@ -14,6 +14,8 @@ const resultStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    maxHeight: '80%', // add this line to limit the height of the container
+    width: '100%',
   },
   resultsHeader: {
     flexDirection: 'row',
@@ -26,14 +28,15 @@ const resultStyles = StyleSheet.create({
     fontWeight: 'bold',
   },
   count: {
+    fontSize: 16,
+    fontWeight: 'bold',
     marginBottom: 10,
   },
   result: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    backgroundColor: '#E0E0E0', // grey result items
+    borderRadius: 20,
     padding: 10,
-    marginBottom: 10,
-    width: '100%',
+    margin: 10,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -44,17 +47,10 @@ const resultStyles = StyleSheet.create({
     elevation: 5,
   },
   content: {
-    fontWeight: 'bold',
-    marginTop: 5,
-    marginBottom: 10,
+    fontStyle: 'italic',
   },
-  collapseButton: {
-    width: 80,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'yellow',
-    justifyContent: 'center',
-    alignItems: 'center',
+  scrollContainer: {
+    flex: 1,
   },
 });
 

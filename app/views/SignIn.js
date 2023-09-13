@@ -14,9 +14,7 @@ const SignInPage = ({ onTokenReceived }) => {
       const response = await fetch('http://localhost:8001/token', {
         method: 'POST',
         headers: {
-          'Authorization': `Basic ${base64.encode(`${username}:${password}`)}`
-          //'Authorization': `Basic ${btoa(`${username}:${password}`)}`
-        }
+          'Authorization': `Basic ${base64.encode(`${username}:${password}`)}`        }
       });
 
       if (response.status === 401) {
@@ -52,8 +50,8 @@ const SignInPage = ({ onTokenReceived }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity onPress={handleSubmit}>
-          <Text style={signInStyles.button}>Sign In</Text>
+        <TouchableOpacity style={signInStyles.buttonContainer} onPress={handleSubmit}>
+          <Text style={appStyles.button}>Sign In</Text>
         </TouchableOpacity>
         {error ? (
           <View style={signInStyles.errorCard}>

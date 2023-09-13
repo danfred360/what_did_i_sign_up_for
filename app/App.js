@@ -40,8 +40,8 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Home">
-        <Drawer.Screen name="Home" component={Home} />
+      <Drawer.Navigator initialRouteName="Explore">
+        <Drawer.Screen name="Explore" component={Home} />
         <Drawer.Screen name="Files" component={Files} />
         <Drawer.Screen name="About" component={About} />
         <Drawer.Screen name="Sign Out" component={() => {
