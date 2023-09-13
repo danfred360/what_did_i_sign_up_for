@@ -7,8 +7,11 @@ export default function App() {
 
   const handleSearch = async () => {
     try {
-      const response = await fetch(`http://localhost/search?q=${searchTerm}`);
+      const encoded_query = encodeURIComponent(searchTerm);
+      const num_results = 5;
+      const response = await fetch(`http://localhost:8000/search?query=${encoded_query}&num_results=${num_results}`);
       const data = await response.json();
+      console.log(`data: ${JSON.stringify(data)}`)
       setSearchResults(JSON.stringify(data));
     } catch (error) {
       setSearchResults(`Error: ${error}`);
