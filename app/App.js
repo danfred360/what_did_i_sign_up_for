@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, SafeAreaView, ScrollView, TextInput, Button, ActivityIndicator, View, Platform, Dimensions } from 'react-native';
 
 function SearchResults({ results }) {
+  if (!results || !results.results) {
+    return null;
+  }
+
   return (
     <ScrollView style={styles.resultsContainer}>
       <Text style={styles.title}>Search Results:</Text>
@@ -18,6 +22,15 @@ function SearchResults({ results }) {
   );
 }
 
+function Answer({ answer }) {
+  return (
+    <View style={styles.resultsContainer}>
+      <Text style={styles.title}>Answer:</Text>
+      <Text style={styles.content}>{answer}</Text>
+    </View>
+  );
+}
+
 const parentStyles = StyleSheet.create({
   parentContainer: {
     flex: 1,
@@ -30,7 +43,7 @@ const parentStyles = StyleSheet.create({
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#fff',
-    borderRadius: 10,
+    borderRadius: 20,
     padding: 10,
     shadowColor: '#000',
     shadowOffset: {
@@ -63,6 +76,17 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderRadius: 20,
     marginRight: 10,
+    backgroundColor: '#f2f2f2',
+    ...Platform.select({
+      ios: {
+        borderWidth: 1,
+        borderColor: 'gray',
+      },
+      android: {
+        borderColor: 'gray',
+        borderWidth: 1,
+      },
+    }),
   },
   searchButton: {
     borderRadius: 20,
@@ -70,7 +94,7 @@ const styles = StyleSheet.create({
   },
   resultsContainer: {
     backgroundColor: '#f2f2f2',
-    borderRadius: 10,
+    borderRadius: 20,
     padding: 10,
     margin: 10,
     shadowColor: '#000',
@@ -116,22 +140,40 @@ const styles = StyleSheet.create({
 });
 
 export default function App() {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchResults, setSearchResults] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [documentSearchTerm, setDocumentSearchTerm] = useState('');
+  const [documentSearchResults, setDocumentSearchResults] = useState(null);
+  const [documentIsLoading, setDocumentIsLoading] = useState(false);
+  const [questionSearchTerm, setQuestionSearchTerm] = useState('');
+  const [questionSearchResults, setQuestionSearchResults] = useState(null);
+  const [questionIsLoading, setQuestionIsLoading] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
-  const handleSearch = async () => {
-    setIsLoading(true);
+  const handleDocumentSearch = async () => {
+    setDocumentIsLoading(true);
     try {
-      const encoded_query = encodeURIComponent(searchTerm);
+      const encoded_query = encodeURIComponent(documentSearchTerm);
       const num_results = 5;
       const response = await fetch(`http://localhost:8000/search?query=${encoded_query}&num_results=${num_results}`);
       const data = await response.json();
-      setSearchResults(data);
+      setDocumentSearchResults(data);
     } catch (error) {
-      setSearchResults(`Error: ${error}`);
+      setDocumentSearchResults(`Error: ${error}`);
     }
-    setIsLoading(false);
+    setDocumentIsLoading(false);
+  };
+
+  const handleQuestionSearch = async () => {
+    setQuestionIsLoading(true);
+    try {
+      const encoded_query = encodeURIComponent(questionSearchTerm);
+      const num_results = 5;
+      const response = await fetch(`http://localhost:8000/question?question=${encoded_query}&num_results=${num_results}`);
+      const data = await response.json();
+      setQuestionSearchResults(data);
+    } catch (error) {
+      setQuestionSearchResults(`Error: ${error}`);
+    }
+    setQuestionIsLoading(false);
   };
 
   const windowWidth = Dimensions.get('window').width;
@@ -143,14 +185,46 @@ export default function App() {
         <View style={[styles.searchContainer, { width: searchBarWidth }]}>
           <TextInput
             style={styles.searchBar}
-            placeholder="Search..."
-            value={searchTerm}
-            onChangeText={(text) => setSearchTerm(text)}
+            placeholder="Search documents..."
+            value={documentSearchTerm}
+            onChangeText={(text) => setDocumentSearchTerm(text)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
           />
-          <Button title="Search" onPress={handleSearch} style={styles.searchButton} />
+          <Button title="Search" onPress={handleDocumentSearch} style={styles.searchButton} />
         </View>
-        {isLoading && <ActivityIndicator style={styles.loading} />}
-        {searchResults && <SearchResults results={searchResults} />}
+        {documentIsLoading && <ActivityIndicator style={styles.loading} />}
+        <SearchResults results={documentSearchResults} />
+        <View style={[styles.searchContainer, { width: searchBarWidth }]}>
+          <TextInput
+            style={styles.searchBar}
+            placeholder="Ask a question..."
+            value={questionSearchTerm}
+            onChangeText={(text) => setQuestionSearchTerm(text)}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+          />
+          <Button title="Ask" onPress={handleQuestionSearch} style={styles.searchButton} />
+        </View>
+        {questionIsLoading && <ActivityIndicator style={styles.loading} />}
+        {questionSearchResults && questionSearchResults.answer ? (
+          <Answer answer={questionSearchResults.answer} />
+        ) : (
+          questionSearchResults && questionSearchResults.results && (
+            <View style={styles.resultsContainer}>
+              <Text style={styles.title}>Search Results:</Text>
+              <Text style={styles.count}>Count: {questionSearchResults.count}</Text>
+              {questionSearchResults.results.map((result) => (
+                <View key={result.id} style={styles.result}>
+                  <Text>ID: {result.id}</Text>
+                  <Text>Document ID: {result.document_id}</Text>
+                  <Text style={styles.content}>Content: {result.content}</Text>
+                  <Text>Created At: {result.created_at}</Text>
+                </View>
+              ))}
+            </View>
+          )
+        )}
       </View>
     </SafeAreaView>
   );
