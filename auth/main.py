@@ -5,7 +5,6 @@ from base64 import b64decode
 from passlib.context import CryptContext
 import jwt
 from pydantic import BaseModel
-import json
 
 app = FastAPI()
 
@@ -39,7 +38,7 @@ async def login_for_access_token(request: Request):
     auth_header = request.headers.get("Authorization")
 
     if not auth_header or "Basic " not in auth_header:
-        raise HTTPException(status_code=401)
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
 
     b64_encoded_creds = auth_header.split(" ")[1]
     decoded_creds = b64decode(b64_encoded_creds).decode("utf-8")
@@ -47,7 +46,7 @@ async def login_for_access_token(request: Request):
 
     user = users_db.get(username)
     if not user or not verify_password(password, user["hashed_password"]):
-        raise HTTPException(status_code=401)
+        raise HTTPException(status_code=401, detail="Could not validate credentials")
 
     access_token = create_access_token(data={"sub": username})
     return {"access_token": access_token, "token_type": "bearer"}
