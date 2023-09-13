@@ -1,22 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, ScrollView, TextInput, Button, ActivityIndicator, View } from 'react-native';
 
 function SearchResults({ results }) {
   return (
-    <View style={styles.resultsContainer}>
+    <ScrollView style={styles.resultsContainer}>
       <Text style={styles.title}>Search Results:</Text>
       <Text style={styles.count}>Count: {results.count}</Text>
-      <View style={styles.results}>
-        {results.results.map((result) => (
-          <View key={result.id} style={styles.result}>
-            <Text>ID: {result.id}</Text>
-            <Text>Document ID: {result.document_id}</Text>
-            <Text>Content: {result.content}</Text>
-            <Text>Created At: {result.created_at}</Text>
-          </View>
-        ))}
-      </View>
-    </View>
+      {results.results.map((result) => (
+        <View key={result.id} style={styles.result}>
+          <Text>ID: {result.id}</Text>
+          <Text>Document ID: {result.document_id}</Text>
+          <Text style={styles.content}>Content: {result.content}</Text>
+          <Text>Created At: {result.created_at}</Text>
+        </View>
+      ))}
+    </ScrollView>
   );
 }
 
@@ -77,9 +75,6 @@ const styles = StyleSheet.create({
   count: {
     marginBottom: 10,
   },
-  results: {
-    alignItems: 'center',
-  },
   result: {
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -95,13 +90,23 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  content: {
+    fontWeight: 'bold',
+    marginTop: 5,
+    marginBottom: 10,
+  },
+  loading: {
+    marginTop: 20,
+  },
 });
 
 export default function App() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async () => {
+    setIsLoading(true);
     try {
       const encoded_query = encodeURIComponent(searchTerm);
       const num_results = 5;
@@ -111,10 +116,11 @@ export default function App() {
     } catch (error) {
       setSearchResults(`Error: ${error}`);
     }
+    setIsLoading(false);
   };
 
   return (
-    <View style={parentStyles.parentContainer}>
+    <SafeAreaView style={parentStyles.parentContainer}>
       <View style={styles.container}>
         <View style={styles.searchContainer}>
           <TextInput
@@ -125,8 +131,9 @@ export default function App() {
           />
           <Button title="Search" onPress={handleSearch} />
         </View>
+        {isLoading && <ActivityIndicator style={styles.loading} />}
         {searchResults && <SearchResults results={searchResults} />}
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
