@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, TextInput, Button, ActivityIndicator, Dimensions } from 'react-native';
+import { SafeAreaView, View, TextInput, Button, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
 import Answer from './components/Answer';
 import SearchResults from './components/SearchResults';
 import appStyles from './styles/appStyles';
@@ -45,36 +45,38 @@ export default function App() {
 
   return (
     <SafeAreaView style={appStyles.parentContainer}>
-      <View style={appStyles.container}>
-        <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
-          <TextInput
-            style={searchStyles.searchBar}
-            placeholder="Search documents..."
-            value={documentSearchTerm}
-            onChangeText={(text) => setDocumentSearchTerm(text)}
-          />
-          <Button title="Search" onPress={handleDocumentSearch} style={searchStyles.searchButton} />
+      <ScrollView>
+        <View style={appStyles.container}>
+          <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
+            <TextInput
+              style={searchStyles.searchBar}
+              placeholder="Ask a question..."
+              value={questionSearchTerm}
+              onChangeText={(text) => setQuestionSearchTerm(text)}
+            />
+            <Button title="Ask" onPress={handleQuestionSearch} style={searchStyles.searchButton} />
+          </View>
+          {questionIsLoading && <ActivityIndicator style={searchStyles.loading} />}
+          {questionSearchResults && questionSearchResults.answer ? (
+            <Answer answer={questionSearchResults.answer} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
+          ) : (
+            questionSearchResults && questionSearchResults.results && (
+              <SearchResults results={questionSearchResults} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
+            )
+          )}
+          <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
+            <TextInput
+              style={searchStyles.searchBar}
+              placeholder="Search documents..."
+              value={documentSearchTerm}
+              onChangeText={(text) => setDocumentSearchTerm(text)}
+            />
+            <Button title="Search" onPress={handleDocumentSearch} style={searchStyles.searchButton} />
+          </View>
+          {documentIsLoading && <ActivityIndicator style={searchStyles.loading} />}
+          <SearchResults results={documentSearchResults} isCollapsed={documentIsCollapsed} setIsCollapsed={setDocumentIsCollapsed} />
         </View>
-        {documentIsLoading && <ActivityIndicator style={searchStyles.loading} />}
-        <SearchResults results={documentSearchResults} isCollapsed={documentIsCollapsed} setIsCollapsed={setDocumentIsCollapsed} />
-        <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
-          <TextInput
-            style={searchStyles.searchBar}
-            placeholder="Ask a question..."
-            value={questionSearchTerm}
-            onChangeText={(text) => setQuestionSearchTerm(text)}
-          />
-          <Button title="Ask" onPress={handleQuestionSearch} style={searchStyles.searchButton} />
-        </View>
-        {questionIsLoading && <ActivityIndicator style={searchStyles.loading} />}
-        {questionSearchResults && questionSearchResults.answer ? (
-          <Answer answer={questionSearchResults.answer} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
-        ) : (
-          questionSearchResults && questionSearchResults.results && (
-            <SearchResults results={questionSearchResults} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
-          )
-        )}
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

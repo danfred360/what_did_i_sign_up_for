@@ -10,8 +10,8 @@ function SearchResults({ results, isCollapsed, setIsCollapsed }) {
   return (
     <View style={resultStyles.resultsContainer}>
       <View style={resultStyles.resultsHeader}>
-        <Text style={resultStyles.title}>Search Results:</Text>
-        <Button title={isCollapsed ? "Expand" : "Collapse"} onPress={() => setIsCollapsed(!isCollapsed)} />
+        <Text style={resultStyles.title}>Search Results</Text>
+        <Button title={isCollapsed ? "Expand" : "Collapse"} onPress={() => setIsCollapsed(!isCollapsed)} style={resultStyles.collapseButton} />
       </View>
       {!isCollapsed && (
         <>

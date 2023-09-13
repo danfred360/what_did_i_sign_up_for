@@ -48,6 +48,14 @@ const resultStyles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
   },
+  collapseButton: {
+    width: 80,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
 
 export default resultStyles;

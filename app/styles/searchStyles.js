@@ -1,46 +1,31 @@
-import { StyleSheet, Platform, Dimensions } from 'react-native';
-
-const windowWidth = Dimensions.get('window').width;
-const searchBarWidth = windowWidth - 40;
+import { StyleSheet } from 'react-native';
 
 const searchStyles = StyleSheet.create({
   searchContainer: {
     flexDirection: 'row',
-    marginBottom: 10,
-    borderRadius: 20,
-    overflow: 'hidden',
-    ...Platform.select({
-      ios: {
-        borderWidth: 1,
-        borderColor: 'gray',
-      },
-      android: {
-        borderColor: 'gray',
-        borderWidth: 1,
-      },
-    }),
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginVertical: 10,
   },
   searchBar: {
     flex: 1,
     height: 40,
-    paddingHorizontal: 10,
     borderRadius: 20,
+    paddingHorizontal: 10,
+    backgroundColor: '#fff',
     marginRight: 10,
-    backgroundColor: '#f2f2f2',
-    ...Platform.select({
-      ios: {
-        borderWidth: 1,
-        borderColor: 'gray',
-      },
-      android: {
-        borderColor: 'gray',
-        borderWidth: 1,
-      },
-    }),
   },
   searchButton: {
+    width: 80,
+    height: 40,
     borderRadius: 20,
-    paddingHorizontal: 10,
+    backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  searchButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
   loading: {
     marginTop: 20,
