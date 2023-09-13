@@ -1,32 +1,44 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, SafeAreaView, ScrollView, TextInput, Button, ActivityIndicator, View, Platform, Dimensions } from 'react-native';
 
-function SearchResults({ results }) {
+function SearchResults({ results, isCollapsed, setIsCollapsed }) {
   if (!results || !results.results) {
     return null;
   }
 
   return (
-    <ScrollView style={styles.resultsContainer}>
-      <Text style={styles.title}>Search Results:</Text>
-      <Text style={styles.count}>Count: {results.count}</Text>
-      {results.results.map((result) => (
-        <View key={result.id} style={styles.result}>
-          <Text>ID: {result.id}</Text>
-          <Text>Document ID: {result.document_id}</Text>
-          <Text style={styles.content}>Content: {result.content}</Text>
-          <Text>Created At: {result.created_at}</Text>
-        </View>
-      ))}
-    </ScrollView>
+    <View style={styles.resultsContainer}>
+      <View style={styles.resultsHeader}>
+        <Text style={styles.title}>Search Results:</Text>
+        <Button title={isCollapsed ? "Expand" : "Collapse"} onPress={() => setIsCollapsed(!isCollapsed)} />
+      </View>
+      {!isCollapsed && (
+        <>
+          <Text style={styles.count}>Count: {results.count}</Text>
+          {results.results.map((result) => (
+            <View key={result.id} style={styles.result}>
+              <Text>ID: {result.id}</Text>
+              <Text>Document ID: {result.document_id}</Text>
+              <Text style={styles.content}>Content: {result.content}</Text>
+              <Text>Created At: {result.created_at}</Text>
+            </View>
+          ))}
+        </>
+      )}
+    </View>
   );
 }
 
-function Answer({ answer }) {
+function Answer({ answer, isCollapsed, setIsCollapsed }) {
   return (
     <View style={styles.resultsContainer}>
-      <Text style={styles.title}>Answer:</Text>
-      <Text style={styles.content}>{answer}</Text>
+      <View style={styles.resultsHeader}>
+        <Text style={styles.title}>Answer:</Text>
+        <Button title={isCollapsed ? "Expand" : "Collapse"} onPress={() => setIsCollapsed(!isCollapsed)} />
+      </View>
+      {!isCollapsed && (
+        <Text style={styles.content}>{answer}</Text>
+      )}
     </View>
   );
 }
@@ -106,10 +118,15 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
+  resultsHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   title: {
     fontSize: 20,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   count: {
     marginBottom: 10,
@@ -146,7 +163,8 @@ export default function App() {
   const [questionSearchTerm, setQuestionSearchTerm] = useState('');
   const [questionSearchResults, setQuestionSearchResults] = useState(null);
   const [questionIsLoading, setQuestionIsLoading] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
+  const [documentIsCollapsed, setDocumentIsCollapsed] = useState(false);
+  const [questionIsCollapsed, setQuestionIsCollapsed] = useState(false);
 
   const handleDocumentSearch = async () => {
     setDocumentIsLoading(true);
@@ -188,41 +206,26 @@ export default function App() {
             placeholder="Search documents..."
             value={documentSearchTerm}
             onChangeText={(text) => setDocumentSearchTerm(text)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
           />
           <Button title="Search" onPress={handleDocumentSearch} style={styles.searchButton} />
         </View>
         {documentIsLoading && <ActivityIndicator style={styles.loading} />}
-        <SearchResults results={documentSearchResults} />
+        <SearchResults results={documentSearchResults} isCollapsed={documentIsCollapsed} setIsCollapsed={setDocumentIsCollapsed} />
         <View style={[styles.searchContainer, { width: searchBarWidth }]}>
           <TextInput
             style={styles.searchBar}
             placeholder="Ask a question..."
             value={questionSearchTerm}
             onChangeText={(text) => setQuestionSearchTerm(text)}
-            onFocus={() => setIsFocused(true)}
-            onBlur={() => setIsFocused(false)}
           />
           <Button title="Ask" onPress={handleQuestionSearch} style={styles.searchButton} />
         </View>
         {questionIsLoading && <ActivityIndicator style={styles.loading} />}
         {questionSearchResults && questionSearchResults.answer ? (
-          <Answer answer={questionSearchResults.answer} />
+          <Answer answer={questionSearchResults.answer} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
         ) : (
           questionSearchResults && questionSearchResults.results && (
-            <View style={styles.resultsContainer}>
-              <Text style={styles.title}>Search Results:</Text>
-              <Text style={styles.count}>Count: {questionSearchResults.count}</Text>
-              {questionSearchResults.results.map((result) => (
-                <View key={result.id} style={styles.result}>
-                  <Text>ID: {result.id}</Text>
-                  <Text>Document ID: {result.document_id}</Text>
-                  <Text style={styles.content}>Content: {result.content}</Text>
-                  <Text>Created At: {result.created_at}</Text>
-                </View>
-              ))}
-            </View>
+            <SearchResults results={questionSearchResults} isCollapsed={questionIsCollapsed} setIsCollapsed={setQuestionIsCollapsed} />
           )
         )}
       </View>
