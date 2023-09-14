@@ -31,6 +31,12 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: microsoft/variable-substitution@v1 
+        with:
+          files: '**/app.json'
+        env:
+          expo.extra.API_URL: ${{ vars.API_URL }}
+          expo.extra.AUTH_URL: ${{ vars.AUTH_URL }}
       - name: Build and Push Docker image
         uses: docker/build-push-action@v4
         with:
