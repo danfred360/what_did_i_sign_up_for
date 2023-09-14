@@ -8,7 +8,7 @@ function SearchResults({ results, isCollapsed, setIsCollapsed }) {
   }
 
   return (
-    <View style={resultStyles.resultsContainer}>
+    <View style={[resultStyles.resultsContainer, { maxHeight: isCollapsed ? 70 : undefined }]}>
       <View style={resultStyles.resultsHeader}>
         <Text style={resultStyles.title}>Search Results</Text>
         <TouchableOpacity style={appStyles.buttonContainer} onPress={() => setIsCollapsed(!isCollapsed)}>
@@ -19,7 +19,7 @@ function SearchResults({ results, isCollapsed, setIsCollapsed }) {
         <ScrollView>
         <View style={resultStyles.scrollContainer}>
           
-            <View style={resultStyles.results}>
+            <View >
               <Text style={resultStyles.count}>Count: {results.count}</Text>
               {results.results.map((result) => (
                 <View key={result.id} style={resultStyles.result}>

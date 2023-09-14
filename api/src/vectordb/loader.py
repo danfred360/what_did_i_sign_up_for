@@ -10,8 +10,6 @@ class DocumentLoader():
         self.vectordb = VectorDBProvider()
         self.llm = LLMProvider()
         self.file_path = os.environ.get('INPUT_FILES_DIRECTORY')
-        if not os.path.exists(self.file_path):
-            raise Exception(f'Input directory at {self.file_path} does not exist.')
 
     def load_document(self, file_path: str, file_id: int, name: str, description: str, url: str, generate_embeddings: bool = True):
         if not os.path.exists(file_path):

@@ -1,15 +1,33 @@
-import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
+import { useState, useRef } from 'react';
+import { View, Text, Pressable, ScrollView } from 'react-native';
 import resultStyles from '../styles/resultStyles';
 import appStyles from '../styles/appStyles'
 
 function Answer({ answer, isCollapsed, setIsCollapsed }) {
+  const [maxHeight, setMaxHeight] = useState(undefined);
+  const contentRef = useRef(null);
+
+  const handleCollapse = () => {
+    setIsCollapsed(!isCollapsed)
+    handleLayout;
+  };
+
+  const handleLayout = () => {
+    if (contentRef.current) {
+      const height = contentRef.current.clientHeight;
+      setMaxHeight(height + 40); // add some extra padding to the height
+      console.log(maxHeight);
+      console.log("foobar");
+    }
+  };
+
   return (
-    <View style={resultStyles.resultsContainer}>
+    <View style={[resultStyles.resultsContainer, { maxHeight }]}>
       <View style={resultStyles.resultsHeader}>
         <Text style={resultStyles.title}>Answer</Text>
-        <TouchableOpacity style={appStyles.buttonContainer} onPress={() => setIsCollapsed(!isCollapsed)}>
+        <Pressable style={appStyles.buttonContainer} onPress={handleCollapse}>
             <Text style={appStyles.button}>{isCollapsed ? "Expand" : "Collapse"}</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       {!isCollapsed && (
         <ScrollView>

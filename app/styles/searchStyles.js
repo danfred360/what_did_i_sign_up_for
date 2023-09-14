@@ -1,4 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
+
+const windowWidth = Dimensions.get('window').width;
+const searchBarWidth = windowWidth - 40;
 
 const searchStyles = StyleSheet.create({
   searchContainer: {
@@ -8,6 +11,7 @@ const searchStyles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
     paddingHorizontal: 20,
+    width: searchBarWidth,
   },
   searchBar: {
     flex: 1,
