@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
@@ -44,10 +44,12 @@ export default function App() {
         <Drawer.Screen name="Explore" component={Home} />
         <Drawer.Screen name="Files" component={Files} />
         <Drawer.Screen name="About" component={About} />
-        <Drawer.Screen name="Sign Out" component={() => {
-          handleSignOut();
-          return null;
-        }} />
+        <Drawer.Screen name="Sign Out">
+          {() => {
+            handleSignOut();
+            return null;
+          }}
+        </Drawer.Screen>
       </Drawer.Navigator>
     </NavigationContainer>
   );
