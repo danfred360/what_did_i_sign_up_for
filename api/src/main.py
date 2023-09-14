@@ -1,6 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
 from fastapi.responses import RedirectResponse
-from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import jwt
@@ -44,7 +43,7 @@ class User(BaseModel):
     username: str
 
 async def get_current_user(authorization: HTTPAuthorizationCredentials = Depends(oauth2_scheme)):
-    token = authorization.split(" ")[1] if " " in authorization else authorization
+    authorization.split(" ")[1] if " " in authorization else authorization
     try:
         token_str = authorization.credentials
         payload = jwt.decode(token_str, SECRET_KEY, algorithms="HS256")
