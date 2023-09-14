@@ -1,0 +1,29 @@
+name: app gate
+
+on:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'app/**'
+  workflow_dispatch:
+
+env:
+  SOURCE_DIRECTORY: ./app
+
+jobs:
+  build:
+    name: app gate
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '20.x'
+    - name: Install dependencies
+      run: yarn install
+      working-directory: ${{ env.SOURCE_DIRECTORY }}
+    - name: Build app
+      run: yarn build
+      working-directory: ${{ env.SOURCE_DIRECTORY }}
