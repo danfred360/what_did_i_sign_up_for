@@ -23,7 +23,11 @@ services:
 
   app:
     container_name: app
-    image: ghcr.io/danfred360/what_did_i_sign_up_for-app:latest
+    # image: ghcr.io/danfred360/what_did_i_sign_up_for-app:latest
+    image: app:testing
+    environment:
+      API_URL: http://api
+      AUTH_URL: http://auth/token
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`npole.org`)"

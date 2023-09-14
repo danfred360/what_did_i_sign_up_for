@@ -1,4 +1,6 @@
-const API_URL = 'http://localhost:8000';
+import Constants from 'expo-constants';
+
+const API_URL = Constants.expoConfig.extra.API_URL || 'http://localhost:8000';
 
 async function searchDocuments(query, numResults) {
   const encoded_query = encodeURIComponent(query);

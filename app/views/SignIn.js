@@ -3,15 +3,17 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity } from 'react-nat
 import appStyles from '../styles/appStyles';
 import signInStyles from '../styles/signInStyles';
 import base64 from 'base-64';
+import Constants from 'expo-constants';
 
 const SignInPage = ({ onTokenReceived }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const AUTH_URL = Constants.expoConfig.extra.AUTH_URL || 'http://localhost:8001/token'
 
   const handleSubmit = async () => {
     try {
-      const response = await fetch('http://localhost:8001/token', {
+      const response = await fetch(AUTH_URL, {
         method: 'POST',
         headers: {
           'Authorization': `Basic ${base64.encode(`${username}:${password}`)}`        }

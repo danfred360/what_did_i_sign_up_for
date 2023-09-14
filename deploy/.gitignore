@@ -1,6 +1,7 @@
 api.env
 vectordb.env
 auth.env
+app.env
 data/**
 input_files/**
 letsencrypt/
