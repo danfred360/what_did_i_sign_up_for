@@ -1,19 +1,19 @@
-name: api release
+name: auth release
 on:
   push:
     branches: ['main']
     paths:
-      - 'api/**'
+      - 'auth/**'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-api
+  IMAGE_NAME: ${{ github.repository }}-auth
   VERSION: 1.0.0
 
 jobs:
   build-and-push-image:
-    name: api release
+    name: auth release
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,7 +34,7 @@ jobs:
       - name: Build and Push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: api
+          context: auth
           platforms: linux/amd64,linux/arm64,linux/arm64/v8
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest

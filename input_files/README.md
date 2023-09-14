@@ -1,1 +1,0 @@
-file structure is collection -> file_class -> file -> documents

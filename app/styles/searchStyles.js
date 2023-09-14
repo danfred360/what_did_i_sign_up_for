@@ -6,6 +6,8 @@ const searchStyles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     marginVertical: 10,
+    padding: 10,
+    paddingHorizontal: 20,
   },
   searchBar: {
     flex: 1,
@@ -29,6 +31,7 @@ const searchStyles = StyleSheet.create({
   },
   loading: {
     marginTop: 20,
+    marginBottom: 20,
   },
 });
 

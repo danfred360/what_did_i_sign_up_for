@@ -13,6 +13,16 @@ services:
     volumes:
       - ./input_files:/code/input_files
 
+  auth:
+    container_name: auth
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:latest
+    env_file:
+      - auth.env
+    ports:
+      - 80:80
+    volumes:
+      - ./input_files:/code/input_files
+
   vectordb:
     container_name: vectordb
     image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:latest

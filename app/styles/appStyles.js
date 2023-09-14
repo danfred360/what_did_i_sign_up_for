@@ -1,13 +1,20 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions, Platform } from 'react-native';
+
+const windowHeight = Dimensions.get('window').height;
+const windowWidth = Dimensions.get('window').width - 40;;
 
 const appStyles = StyleSheet.create({
   parentContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#D1C4E9', // light purple background
-    padding: 20,
-    paddingTop: 20
+    backgroundColor: '#D1C4E9',
+    padding: Platform.select({
+      ios: 40,
+      android: 20,
+      web: 40,
+      default: 20,
+    }),
   },
   container: {
     backgroundColor: '#B39DDB', // slightly darker purple
@@ -21,11 +28,9 @@ const appStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  searchButton: {
-    backgroundColor: '#FFEB3B', // yellow button
-    borderRadius: 20,
-    paddingHorizontal: 10,
+    width: windowWidth,
+    alignSelf: 'center',
+    maxHeight: windowHeight - 100,
   },
   resultsContainer: {
     backgroundColor: '#E0E0E0', // grey result items
@@ -40,6 +45,19 @@ const appStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  button: {
+    backgroundColor: '#FFEB3B',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    backgroundColor: '#FFEB3B',
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: 100,
   },
 });
 

@@ -1,4 +1,5 @@
 app.env
 vectordb.env
+auth.env
 data/**
 input_files/**

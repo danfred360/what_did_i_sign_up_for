@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, TextInput, Button, ActivityIndicator, Dimensions, ScrollView } from 'react-native';
+import { SafeAreaView, View, TextInput, Button, ActivityIndicator, Dimensions, ScrollView, TouchableOpacity, Text } from 'react-native';
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
 import appStyles from '../styles/appStyles';
@@ -45,7 +45,6 @@ export default function Home() {
 
   return (
     <SafeAreaView style={appStyles.parentContainer}>
-      <ScrollView>
         <View style={appStyles.container}>
           <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
             <TextInput
@@ -53,8 +52,11 @@ export default function Home() {
               placeholder="Ask a question..."
               value={questionSearchTerm}
               onChangeText={(text) => setQuestionSearchTerm(text)}
+              autoCapitalize="none"
             />
-            <Button title="Ask" onPress={handleQuestionSearch} style={searchStyles.searchButton} />
+            <TouchableOpacity style={appStyles.buttonContainer} onPress={handleQuestionSearch}>
+              <Text style={appStyles.button}>Ask</Text>
+            </TouchableOpacity>
           </View>
           {questionIsLoading && <ActivityIndicator style={searchStyles.loading} />}
           {questionSearchResults && questionSearchResults.answer ? (
@@ -67,16 +69,20 @@ export default function Home() {
           <View style={[searchStyles.searchContainer, { width: searchBarWidth }]}>
             <TextInput
               style={searchStyles.searchBar}
-              placeholder="Search documents..."
+              placeholder="Enter a search query..."
               value={documentSearchTerm}
               onChangeText={(text) => setDocumentSearchTerm(text)}
+              autoCapitalize="none"
             />
-            <Button title="Search" onPress={handleDocumentSearch} style={searchStyles.searchButton} />
+            <View >
+              <TouchableOpacity style={appStyles.buttonContainer} onPress={handleDocumentSearch}>
+                <Text style={appStyles.button}>Search</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           {documentIsLoading && <ActivityIndicator style={searchStyles.loading} />}
           <SearchResults results={documentSearchResults} isCollapsed={documentIsCollapsed} setIsCollapsed={setDocumentIsCollapsed} />
         </View>
-      </ScrollView>
     </SafeAreaView>
   );
 }
