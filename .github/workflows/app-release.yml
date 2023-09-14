@@ -31,7 +31,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - uses: microsoft/variable-substitution@v1 
+      - name: Replace variables in app.json
+        uses: microsoft/variable-substitution@v1 
         with:
           files: '**/app.json'
         env:
