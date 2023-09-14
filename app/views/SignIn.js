@@ -34,7 +34,6 @@ const SignInPage = ({ onTokenReceived }) => {
   return (
     <SafeAreaView style={appStyles.parentContainer}>
       <View style={appStyles.container}>
-        {/* <Text style={signInStyles.title}>Sign In</Text> */}
         <TextInput
           style={signInStyles.input}
           autoCapitalize="none"

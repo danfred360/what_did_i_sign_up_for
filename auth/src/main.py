@@ -1,10 +1,14 @@
-from fastapi import FastAPI, HTTPException, Request, Header
-from fastapi.security import OAuth2PasswordBearer, HTTPBasicCredentials, HTTPBasic
+from fastapi import FastAPI, HTTPException, Request
+from fastapi.security import OAuth2PasswordBearer, HTTPBasic
 from fastapi.middleware.cors import CORSMiddleware
 from base64 import b64decode
 from passlib.context import CryptContext
 import jwt
 from pydantic import BaseModel
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = FastAPI()
 
@@ -20,8 +24,12 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 http_basic = HTTPBasic()
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
-users_db = {"username1": {"username": "username1", "hashed_password": pwd_context.hash("password1")}}
-SECRET_KEY = "my_secret_key"
+test_username = os.environ.get("TEST_USERNAME")
+test_password = os.environ.get("TEST_PASSWORD")
+print(f'test username: {test_username}')
+print(f'test_password: {test_password}')
+users_db = {test_username: {"username": test_username, "hashed_password": pwd_context.hash(test_password)}}
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 class Token(BaseModel):
     access_token: str

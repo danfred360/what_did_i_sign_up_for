@@ -31,14 +31,14 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins = origins,
+    allow_origins = ["*"],
     allow_credentials = True,
     allow_methods = ["*"],
     allow_headers = ["*"]
 )
 
-oauth2_scheme = HTTPBearer() # OAuth2PasswordBearer(tokenUrl="http://localhost:8001/token")
-SECRET_KEY = "my_secret_key"
+oauth2_scheme = HTTPBearer()
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 class User(BaseModel):
     username: str
@@ -69,8 +69,8 @@ app.include_router(file_router)
 app.include_router(collection_router)
 app.include_router(file_class_router)
 
-root = os.path.dirname(os.path.abspath(__file__))
-app.mount('/staticapp', app=StaticFiles(directory='api/public', html=True), name='public')
+# root = os.path.dirname(os.path.abspath(__file__))
+# app.mount('/staticapp', app=StaticFiles(directory='api/public', html=True), name='public')
 @app.get("/", tags=['root'])
 async def redirect_to_swagger():
     response = RedirectResponse(url='/docs')
