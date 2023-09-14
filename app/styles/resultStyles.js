@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import appStyles from './appStyles';
 
 const resultStyles = StyleSheet.create({
   resultsContainer: {
@@ -14,7 +15,7 @@ const resultStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    maxHeight: '80%', // add this line to limit the height of the container
+    maxHeight: appStyles.container.maxHeight - 40,
     width: '100%',
   },
   resultsHeader: {

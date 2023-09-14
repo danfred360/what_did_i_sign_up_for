@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { SafeAreaView, View, TextInput, Button, ActivityIndicator, Dimensions, ScrollView, TouchableOpacity, Text } from 'react-native';
+import { useState } from 'react';
+import { SafeAreaView, View, TextInput, ActivityIndicator, Dimensions, Pressable, Text } from 'react-native';
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
 import appStyles from '../styles/appStyles';
@@ -54,9 +54,9 @@ export default function Home() {
               onChangeText={(text) => setQuestionSearchTerm(text)}
               autoCapitalize="none"
             />
-            <TouchableOpacity style={appStyles.buttonContainer} onPress={handleQuestionSearch}>
+            <Pressable style={appStyles.buttonContainer} onPress={handleQuestionSearch}>
               <Text style={appStyles.button}>Ask</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
           {questionIsLoading && <ActivityIndicator style={searchStyles.loading} />}
           {questionSearchResults && questionSearchResults.answer ? (
@@ -75,9 +75,9 @@ export default function Home() {
               autoCapitalize="none"
             />
             <View >
-              <TouchableOpacity style={appStyles.buttonContainer} onPress={handleDocumentSearch}>
+              <Pressable style={appStyles.buttonContainer} onPress={handleDocumentSearch}>
                 <Text style={appStyles.button}>Search</Text>
-              </TouchableOpacity>
+              </Pressable>
             </View>
           </View>
           {documentIsLoading && <ActivityIndicator style={searchStyles.loading} />}

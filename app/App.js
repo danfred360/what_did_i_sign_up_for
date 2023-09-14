@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import Home from './views/Home';
-import About from './views/About';
-import Files from './views/Files';
-import SignIn from './views/SignIn';
+import Home from './screens/Home';
+import About from './screens/About';
+import Files from './screens/Files';
+import SignIn from './screens/SignIn';
 
 const Drawer = createDrawerNavigator();
 
