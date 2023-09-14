@@ -30,6 +30,8 @@ services:
       INPUT_FILES_DIRECTORY: /code/input_files
     env_file:
       - api.env
+    volumes:
+      - ./input_files:/code/input_files
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.npole.org`)"
