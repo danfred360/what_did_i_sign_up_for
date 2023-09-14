@@ -1,5 +1,5 @@
 services:
-  app:
+  api:
     container_name: api
     image: ghcr.io/danfred360/what_did_i_sign_up_for-api:latest
     environment:
@@ -7,7 +7,7 @@ services:
       VECTORDB_PORT: 5432
       INPUT_FILES_DIRECTORY: /code/input_files
     env_file:
-      - app.env
+      - api.env
     ports:
       - 80:80
     volumes:
