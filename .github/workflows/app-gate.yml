@@ -7,6 +7,9 @@ on:
       - 'app/**'
   workflow_dispatch:
 
+env:
+  SOURCE_DIRECTORY: ./app
+
 jobs:
   build:
     name: app gate
@@ -20,5 +23,7 @@ jobs:
         node-version: '20.x'
     - name: Install dependencies
       run: yarn install
+      working-directory: ${{ env.SOURCE_DIRECTORY }}
     - name: Build app
       run: yarn build
+      working-directory: ${{ env.SOURCE_DIRECTORY }}
