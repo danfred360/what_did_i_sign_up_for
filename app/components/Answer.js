@@ -16,8 +16,6 @@ function Answer({ answer, isCollapsed, setIsCollapsed }) {
     if (contentRef.current) {
       const height = contentRef.current.clientHeight;
       setMaxHeight(height + 40); // add some extra padding to the height
-      console.log(maxHeight);
-      console.log("foobar");
     }
   };
 

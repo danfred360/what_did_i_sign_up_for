@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Depends
 from pydantic import BaseModel
 from ..provider import VectorDBProvider, RecordNotFound
+from ..auth import get_current_user, User
 from datetime import datetime
 
 file_router = APIRouter()
@@ -30,7 +31,7 @@ class UpdateFile(BaseModel):
     url: str | None = None
 
 @file_router.get("/files/{file_id}", response_model=File, tags=['file'])
-async def get_file(file_id: int):
+async def get_file(file_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     file = provider.get_file(file_id)
@@ -40,7 +41,7 @@ async def get_file(file_id: int):
     return file
 
 @file_router.get("/files", response_model=list[File], tags=['file'])
-async def list_files():
+async def list_files(current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     files = provider.list_files()
@@ -50,7 +51,7 @@ async def list_files():
     return files
 
 @file_router.patch("/files/{file_id}/update", response_model=File, tags=['file'])
-async def update_file(file_id: int, file: UpdateFile):
+async def update_file(file_id: int, file: UpdateFile, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     file = provider.update_file(file_id, file.collection_id, file.file_class_id, file.name, file.description, file.url)
@@ -66,7 +67,7 @@ delete_responses = {
 }
 
 @file_router.delete("/files/{file_id}/delete", response_model=File, responses=delete_responses, tags=['file'])
-async def delete_file(file_id: int):
+async def delete_file(file_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     try:
         provider.connect()
@@ -79,7 +80,7 @@ async def delete_file(file_id: int):
         return Response(status_code=204)
 
 @file_router.post("/files", response_model=File, tags=['file'])
-async def create_file(file: CreateFile):
+async def create_file(file: CreateFile, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     file = provider.create_file(file.collection_id, file.file_class_id, file.name, file.description, file.url)

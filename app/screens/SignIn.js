@@ -28,7 +28,6 @@ const SignInPage = ({ onTokenReceived }) => {
       onTokenReceived(data.access_token);
 
     } catch (error) {
-      console.log(error);
       setError('An error occurred. Please try again later.');
     }
   };

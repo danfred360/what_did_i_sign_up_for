@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from ..provider import VectorDBProvider
+from ..auth import get_current_user, User
 from datetime import datetime
 
 document_router = APIRouter()
@@ -29,7 +30,7 @@ class UpdateDocument(BaseModel):
     url: str | None = None
 
 @document_router.get("/documents/{document_name}", tags=['document'])
-async def get_document_by_name(document_name: str):
+async def get_document_by_name(document_name: str, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     try:
         provider.connect()
@@ -41,7 +42,7 @@ async def get_document_by_name(document_name: str):
     return document
 
 @document_router.get("/documents/{document_id}", response_model=Document, tags=['document'])
-async def get_file_document(document_id: int):
+async def get_file_document(document_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     document = provider.get_file_document(document_id)
@@ -51,7 +52,7 @@ async def get_file_document(document_id: int):
     return document
 
 @document_router.get("/documents", tags=['document'])
-async def list_documents():
+async def list_documents(current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     try:
         provider.connect()
@@ -63,7 +64,7 @@ async def list_documents():
     return documents
 
 @document_router.get("/files/{file_id}/documents", response_model=list[Document], tags=['document'])
-async def list_file_documents(file_id: int):
+async def list_file_documents(file_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     documents = provider.list_file_documents(file_id)
@@ -73,7 +74,7 @@ async def list_file_documents(file_id: int):
     return documents
 
 @document_router.post("/files/{file_id}/documents/create", response_model=Document, tags=['document'])
-async def create_file_document(file_id: int, document: CreateDocument):
+async def create_file_document(file_id: int, document: CreateDocument, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     document = provider.create_file_document(file_id, document.name, document.description, document.contents, document.url)
@@ -81,7 +82,7 @@ async def create_file_document(file_id: int, document: CreateDocument):
     return document
 
 @document_router.patch("/files/{file_id}/documents/{document_id}/update", response_model=Document, tags=['document'])
-async def update_file_document(file_id: int, document_id: int, document: UpdateDocument):
+async def update_file_document(file_id: int, document_id: int, document: UpdateDocument, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     document = provider.update_file_document(document_id, document.name, document.description, document.contents, document.url)
@@ -91,7 +92,7 @@ async def update_file_document(file_id: int, document_id: int, document: UpdateD
     return document
 
 @document_router.delete("/files/{file_id}/documents/{document_id}/delete", tags=['document'])
-async def delete_file_document(file_id: int, document_id: int):
+async def delete_file_document(file_id: int, document_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     try:
