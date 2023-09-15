@@ -28,14 +28,6 @@ origins = [
     "http://localhost:19006",
     "http://192.168.200.236:8081"
 ]
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins = ["*"],
-    allow_credentials = True,
-    allow_methods = ["*"],
-    allow_headers = ["*"]
-)
     
 @app.middleware("http")
 async def auth_middleware(request: Request, call_next):
@@ -57,6 +49,14 @@ async def auth_middleware(request: Request, call_next):
     request.state.user = user
     response = await call_next(request)
     return response
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins = ["*"],
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"]
+)
 
 
 @app.get("/users/me", response_model = User)
