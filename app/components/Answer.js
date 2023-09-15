@@ -25,9 +25,9 @@ function Answer({ answer, isCollapsed, setIsCollapsed }) {
     <View style={[resultStyles.resultsContainer, { maxHeight }]}>
       <View style={resultStyles.resultsHeader}>
         <Text style={resultStyles.title}>Answer</Text>
-        <Pressable style={appStyles.buttonContainer} onPress={handleCollapse}>
+        {/* <Pressable style={appStyles.buttonContainer} onPress={handleCollapse}>
             <Text style={appStyles.button}>{isCollapsed ? "Expand" : "Collapse"}</Text>
-        </Pressable>
+        </Pressable> */}
       </View>
       {!isCollapsed && (
         <ScrollView>
