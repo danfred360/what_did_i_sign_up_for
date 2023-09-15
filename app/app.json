@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "app",
-    "slug": "app",
+    "name": "What did I sign up for?",
+    "slug": "what-did-i-sign-up-for",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -15,20 +15,27 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.npole.whatdidisignupfor",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.npole.whatdidisignupfor",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "API_URL": "http://localhost:8000",
-      "AUTH_URL": "http://localhost:8001/token"
+      "AUTH_URL": "http://localhost:8001/token",
+      "eas": {
+        "projectId": "89582e97-7813-4d92-b33f-64d7ba894fd9"
+      }
     }
   }
 }
