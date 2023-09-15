@@ -16,7 +16,7 @@ async def get_current_user(authorization: HTTPAuthorizationCredentials = Depends
         payload = jwt.decode(token_str, SECRET_KEY, algorithms="HS256")
         username: str = payload.get("sub")
         if username is None:
-            raise HTTPException(status_code=401)
+            raise Exception("Could not validate credentials")
         return User(username=username)
     except Exception as e:
         raise e

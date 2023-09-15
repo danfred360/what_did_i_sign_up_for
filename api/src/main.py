@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, Request, Response
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.security import HTTPAuthorizationCredentials
 import jwt
 from .vectordb.routers.collection import collection_router
 from .vectordb.routers.file_class import file_class_router
@@ -12,8 +12,6 @@ from .vectordb.routers.question import question_router
 from .vectordb.routers.loader import loader_router
 from .vectordb.auth import get_current_user, User
 from dotenv import load_dotenv
-import os
-from pydantic import BaseModel
 
 load_dotenv('.env')
 

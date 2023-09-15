@@ -1,5 +1,4 @@
 from fastapi import APIRouter, HTTPException, Response, Depends
-from fastapi.security import HTTPBearer
 from pydantic import BaseModel
 from ..provider import VectorDBProvider, RecordNotFound
 from ..auth import get_current_user, User
