@@ -30,21 +30,12 @@ const appStyles = StyleSheet.create({
     elevation: 5,
     width: windowWidth,
     alignSelf: 'center',
-    maxHeight: windowHeight - 100,
-  },
-  resultsContainer: {
-    backgroundColor: '#E0E0E0', // grey result items
-    borderRadius: 20,
-    padding: 10,
-    margin: 10,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flex: 1,
+    flexWrap: 'wrap',
+    flexDirection: 'column',
+    // maxHeight: windowHeight - 100,
   },
   button: {
     backgroundColor: '#FFEB3B',

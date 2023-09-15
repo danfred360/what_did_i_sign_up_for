@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, Pressable } from 'react-native';
 import appStyles from '../styles/appStyles';
 import signInStyles from '../styles/signInStyles';
 import base64 from 'base-64';
@@ -51,9 +51,9 @@ const SignInPage = ({ onTokenReceived }) => {
           onChangeText={setPassword}
           secureTextEntry
         />
-        <TouchableOpacity style={signInStyles.buttonContainer} onPress={handleSubmit}>
+        <Pressable style={signInStyles.buttonContainer} onPress={handleSubmit}>
           <Text style={appStyles.button}>Sign In</Text>
-        </TouchableOpacity>
+        </Pressable>
         {error ? (
           <View style={signInStyles.errorCard}>
             <Text style={signInStyles.errorText}>{error}</Text>

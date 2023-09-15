@@ -14,7 +14,7 @@ const resultStyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    maxHeight: '80%', // add this line to limit the height of the container
+    flex: 1,
     width: '100%',
   },
   resultsHeader: {
