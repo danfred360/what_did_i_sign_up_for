@@ -1,10 +1,11 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from ..loader import DocumentLoader
+from ..auth import get_current_user, User
 
 loader_router = APIRouter()
 
 @loader_router.get("/loader/load_input_files", tags=['loader'])
-async def load_files_from_input_files_dir():
+async def load_files_from_input_files_dir(current_user: User = Depends(get_current_user)):
     loader = DocumentLoader()
     generate_embeddings = True
     try:
@@ -14,7 +15,7 @@ async def load_files_from_input_files_dir():
     return result
 
 @loader_router.get("/loader/load_url", tags=['loader'])
-async def load_file_from_url(url: str):
+async def load_file_from_url(url: str, current_user: User = Depends(get_current_user)):
     loader = DocumentLoader()
     generate_embeddings = True
     try:
@@ -24,7 +25,7 @@ async def load_file_from_url(url: str):
     return result
 
 @loader_router.get("/files/{file_id}/process", tags=['loader'])
-async def process_file(file_id: int):
+async def process_file(file_id: int, current_user: User = Depends(get_current_user)):
     loader = DocumentLoader()
     generate_embeddings = True
     try:

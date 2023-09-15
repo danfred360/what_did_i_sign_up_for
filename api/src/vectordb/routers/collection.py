@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException, Response
+from fastapi import APIRouter, HTTPException, Response, Depends
 from pydantic import BaseModel
 from ..provider import VectorDBProvider, RecordNotFound
+from ..auth import get_current_user, User
 
 collection_router = APIRouter()
 
@@ -25,7 +26,7 @@ class UpdateCollection(BaseModel):
 
 
 @collection_router.get("/collections/{collection_id}", response_model=Collection, tags=['collection'])
-async def get_collection(collection_id: int):
+async def get_collection(collection_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     collection = provider.get_collection_by_id(collection_id)
@@ -35,7 +36,7 @@ async def get_collection(collection_id: int):
     return collection
 
 @collection_router.get("/collections", response_model=list[Collection], tags=['collection'])
-async def list_collections():
+async def list_collections(current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     collections = provider.list_collections()
@@ -45,7 +46,7 @@ async def list_collections():
     return collections
 
 @collection_router.post("/collections/", response_model=Collection, tags=['collection'])
-async def create_collection(collection: CreateCollection):
+async def create_collection(collection: CreateCollection, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     collection = provider.create_collection(collection.name, collection.description, collection.parent_collection_id, collection.image_url)
@@ -53,7 +54,7 @@ async def create_collection(collection: CreateCollection):
     return collection
 
 @collection_router.patch("/collections/{collection_id}/update", response_model=Collection, tags=['collection'])
-async def update_collection(collection_id: int, collection: UpdateCollection):
+async def update_collection(collection_id: int, collection: UpdateCollection, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     collection = provider.update_collection(
@@ -75,7 +76,7 @@ delete_responses = {
 }
 
 @collection_router.delete("/collections/{collection_id}/delete", responses=delete_responses, tags=['collection'])
-async def delete_collection(collection_id: int):
+async def delete_collection(collection_id: int, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
     try:

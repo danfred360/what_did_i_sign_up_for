@@ -1,6 +1,7 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Depends
 from pydantic import BaseModel
 from ..question import QuestionAnswerer
+from ..auth import get_current_user, User
 
 question_router = APIRouter()
 
@@ -12,7 +13,7 @@ question_responses= {
 }
 
 @question_router.get("/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question(question: str):
+async def question(question: str, current_user: User = Depends(get_current_user)):
     answerer = QuestionAnswerer()
     try:
         answer = answerer.answer_question(question)
@@ -21,7 +22,7 @@ async def question(question: str):
     return answer
 
 @question_router.get("/documents/{document_id}/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question_by_document_id(document_id: int, question: str):
+async def question_by_document_id(document_id: int, question: str, current_user: User = Depends(get_current_user)):
     answerer = QuestionAnswerer()
     try:
         answer = answerer.answer_question_by_document_id(question, document_id)
@@ -30,7 +31,7 @@ async def question_by_document_id(document_id: int, question: str):
     return answer
 
 @question_router.get("/files/{file_id}/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question_by_file_id(file_id: int, question: str):
+async def question_by_file_id(file_id: int, question: str, current_user: User = Depends(get_current_user)):
     answerer = QuestionAnswerer()
     try:
         answer = answerer.answer_question_by_file_id(question, file_id)
@@ -39,7 +40,7 @@ async def question_by_file_id(file_id: int, question: str):
     return answer
 
 @question_router.get("/collections/{collection_id}/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question_by_collection_id(collection_id: int, question: str):
+async def question_by_collection_id(collection_id: int, question: str, current_user: User = Depends(get_current_user)):
     answerer = QuestionAnswerer()
     try:
         answer = answerer.answer_question_by_collection_id(question, collection_id)
@@ -48,7 +49,7 @@ async def question_by_collection_id(collection_id: int, question: str):
     return answer
 
 @question_router.get("/file_classes/{file_class_id}/question", response_model=QuestionResponse, responses=question_responses, tags=['question'])
-async def question_by_file_class_id(file_class_id: int, question: str):
+async def question_by_file_class_id(file_class_id: int, question: str, current_user: User = Depends(get_current_user)):
     answerer = QuestionAnswerer()
     try:
         answer = answerer.answer_question_by_file_class_id(question, file_class_id)
