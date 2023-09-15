@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+load_dotenv('.env')
 
 app = FastAPI()
 
@@ -26,8 +26,7 @@ http_basic = HTTPBasic()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 test_username = os.environ.get("TEST_USERNAME")
 test_password = os.environ.get("TEST_PASSWORD")
-print(f'test username: {test_username}')
-print(f'test_password: {test_password}')
+
 users_db = {test_username: {"username": test_username, "hashed_password": pwd_context.hash(test_password)}}
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
