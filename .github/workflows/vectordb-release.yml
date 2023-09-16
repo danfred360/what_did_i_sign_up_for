@@ -16,6 +16,8 @@ jobs:
   build-and-push-image:
     name: app release
     runs-on: ubuntu-latest
+    environment:
+      name: prod
     permissions:
       contents: read
       packages: write
