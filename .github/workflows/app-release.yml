@@ -15,6 +15,9 @@ jobs:
   build-and-push-image:
     name: app release
     runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://npole.org
     permissions:
       contents: read
       packages: write
