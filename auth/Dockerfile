@@ -10,6 +10,7 @@ COPY ./requirements.txt /code/requirements.txt
 RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY ./src /code/api
+COPY ./logging_config.json /code/api/logging_config.json
 
 RUN chown -R auth:auth /code
 RUN chown -R auth:auth /var/log/what-did-i-sign-up-for
