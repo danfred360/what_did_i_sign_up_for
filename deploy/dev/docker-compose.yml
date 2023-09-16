@@ -67,7 +67,7 @@ services:
     env_file:
       - auth.env
     volumes:
-      - ./logs/api:/var/log/what-did-i-sign-up-for
+      - ./logs/auth:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.dev.npole.org`)"
