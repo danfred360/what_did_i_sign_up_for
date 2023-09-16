@@ -3,7 +3,7 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'api/**'
+      - 'auth/**'
   workflow_dispatch:
 
 jobs:
