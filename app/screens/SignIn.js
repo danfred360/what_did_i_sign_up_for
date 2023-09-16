@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Pressable } from 'react-native';
 import appStyles from '../styles/appStyles';
 import signInStyles from '../styles/signInStyles';
+import mainStyles from '../styles/main';
 import base64 from 'base-64';
 import Constants from 'expo-constants';
 
@@ -33,31 +34,38 @@ const SignInPage = ({ onTokenReceived }) => {
   };
 
   return (
-    <SafeAreaView style={appStyles.parentContainer}>
-      <View style={appStyles.container}>
+    <SafeAreaView style={mainStyles.parent_container}>
+      <Text style={mainStyles.title}>SIGN IN</Text>
+      <View style={mainStyles.form_area}>
+        <View style={mainStyles.form_group}>
         <TextInput
-          style={signInStyles.input}
+          style={mainStyles.form_style}
           autoCapitalize="none"
           placeholder="Username"
           value={username}
           onChangeText={setUsername}
         />
+        </View>
+        <View style={mainStyles.form_group}>
         <TextInput
-          style={signInStyles.input}
+          style={mainStyles.form_style}
           autoCapitalize="none"
           placeholder="Password"
           value={password}
           onChangeText={setPassword}
           secureTextEntry
         />
-        <Pressable style={signInStyles.buttonContainer} onPress={handleSubmit}>
-          <Text style={appStyles.button}>Sign In</Text>
+        </View>
+        <View style={mainStyles.form_group}>
+        <Pressable style={mainStyles.btn} onPress={handleSubmit}>
+          <Text style={mainStyles.text}>Sign In</Text>
         </Pressable>
         {error ? (
           <View style={signInStyles.errorCard}>
             <Text style={signInStyles.errorText}>{error}</Text>
           </View>
         ) : null}
+        </View>
       </View>
     </SafeAreaView>
   );

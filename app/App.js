@@ -1,13 +1,11 @@
 import { useState, useEffect } from 'react';
+import { SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from './screens/Home';
-import About from './screens/About';
-import Files from './screens/Files';
 import SignIn from './screens/SignIn';
+import mainStyles from './styles/main'; 
+import SettingsTray from './components/SettingsTray';
 
-const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [token, setToken] = useState(null);
@@ -39,18 +37,9 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <Drawer.Navigator initialRouteName="Explore">
-        <Drawer.Screen name="Explore" component={Home} />
-        <Drawer.Screen name="Files" component={Files} />
-        <Drawer.Screen name="About" component={About} />
-        <Drawer.Screen name="Sign Out">
-          {() => {
-            handleSignOut();
-            return null;
-          }}
-        </Drawer.Screen>
-      </Drawer.Navigator>
-    </NavigationContainer>
+    <SafeAreaView style={mainStyles.parent_container}>
+      <SettingsTray handleSignOut={handleSignOut} />
+      <Home handleSignOut={handleSignOut} />
+    </SafeAreaView>
   );
 }
