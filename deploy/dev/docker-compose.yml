@@ -63,7 +63,7 @@ services:
 
   auth:
     container_name: auth-dev
-    image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:latest
+    image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:develop
     env_file:
       - auth.env
     volumes:
