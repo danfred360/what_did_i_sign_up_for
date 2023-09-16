@@ -15,6 +15,9 @@ jobs:
   build-and-push-image:
     name: api release
     runs-on: ubuntu-latest
+    environment:
+      name: prod
+      url: https://api.npole.org
     permissions:
       contents: read
       packages: write

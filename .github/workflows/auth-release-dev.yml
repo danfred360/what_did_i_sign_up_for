@@ -1,20 +1,23 @@
-name: app release
+name: auth dev release
 on:
   push:
-    branches: ['main']
+    branches: ['develop']
     paths:
-      - 'app/**'
+      - 'auth/**'
   workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
-  IMAGE_NAME: ${{ github.repository }}-app
+  IMAGE_NAME: ${{ github.repository }}-auth
   VERSION: 1.0.0
 
 jobs:
   build-and-push-image:
-    name: app release
+    name: auth dev release
     runs-on: ubuntu-latest
+    environment:
+      name: develop
+      url: https://auth.npole.org
     permissions:
       contents: read
       packages: write
@@ -31,17 +34,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Replace variables in app.json
-        uses: microsoft/variable-substitution@v1 
-        with:
-          files: '**/app.json'
-        env:
-          expo.extra.API_URL: ${{ env.API_URL }}
-          expo.extra.AUTH_URL: ${{ env.AUTH_URL }}
       - name: Build and Push Docker image
         uses: docker/build-push-action@v4
         with:
-          context: app
+          context: auth
           platforms: linux/amd64,linux/arm64,linux/arm64/v8
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:develop

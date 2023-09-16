@@ -1,7 +1,7 @@
 name: app release
 on:
   push:
-    branches: ['main']
+    branches: ['develop']
     paths:
       - 'app/**'
   workflow_dispatch:
@@ -15,6 +15,9 @@ jobs:
   build-and-push-image:
     name: app release
     runs-on: ubuntu-latest
+    environment:
+      name: develop
+      url: https://dev.npole.org
     permissions:
       contents: read
       packages: write
@@ -44,4 +47,4 @@ jobs:
           context: app
           platforms: linux/amd64,linux/arm64,linux/arm64/v8
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:develop
