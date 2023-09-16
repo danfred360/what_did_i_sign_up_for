@@ -39,8 +39,8 @@ jobs:
         with:
           files: '**/app.json'
         env:
-          expo.extra.API_URL: ${{ env.API_URL }}
-          expo.extra.AUTH_URL: ${{ env.AUTH_URL }}
+          expo.extra.API_URL: ${{ vars.API_URL }}
+          expo.extra.AUTH_URL: ${{ vars.AUTH_URL }}
       - name: Build and Push Docker image
         uses: docker/build-push-action@v4
         with:
