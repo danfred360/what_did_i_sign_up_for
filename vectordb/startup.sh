@@ -25,5 +25,8 @@ EOSQL
 echo "seeding data..."
 "${psql[@]}" --dbname="vectordb" -f /sqlscripts/seed.sql
 
-# Run the original entrypoint script
-# /usr/local/bin/docker-entrypoint.sh "$@"
+echo "enable logging..."
+"${psql[@]}" --dbname="vectordb" -c "ALTER SYSTEM SET logging_collector = 'on';"
+"${psql[@]}" --dbname="vectordb" -c "ALTER SYSTEM SET log_destination = 'stderr';"
+"${psql[@]}" --dbname="vectordb" -c "ALTER SYSTEM SET log_directory = '/var/log/postgresql';"
+"${psql[@]}" --dbname="vectordb" -c "SELECT pg_reload_conf();"

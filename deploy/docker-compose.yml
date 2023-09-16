@@ -53,7 +53,7 @@ services:
       - api.env
     volumes:
       - ./input_files:/code/input_files
-      - ./logs/api:/var/log/what_did_i_sign_up_for
+      - ./logs/api:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.npole.org`)"
@@ -67,7 +67,7 @@ services:
     env_file:
       - auth.env
     volumes:
-      - ./logs/auth:/var/log/what_did_i_sign_up_for
+      - ./logs/api:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.npole.org`)"
