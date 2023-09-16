@@ -1,11 +1,12 @@
 import { useState, useRef } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
 import resultStyles from '../styles/resultStyles';
-import appStyles from '../styles/appStyles'
+import mainStyles from '../styles/main';
 
-function Answer({ answer, isCollapsed, setIsCollapsed }) {
+function Answer({ answer }) {
   const [maxHeight, setMaxHeight] = useState(undefined);
   const contentRef = useRef(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleCollapse = () => {
     setIsCollapsed(!isCollapsed)
@@ -20,20 +21,22 @@ function Answer({ answer, isCollapsed, setIsCollapsed }) {
   };
 
   return (
-    <View style={[resultStyles.resultsContainer, { maxHeight }]}>
-      <View style={resultStyles.resultsHeader}>
-        <Text style={resultStyles.title}>Answer</Text>
-        {/* <Pressable style={appStyles.buttonContainer} onPress={handleCollapse}>
+    <View style={mainStyles.form_area}>
+      <View style={[mainStyles.form_group, isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container]}>
+        <View style={mainStyles.form_header}>
+          <Text style={mainStyles.sub_title}>Answer</Text>
+          {/* <Pressable style={appStyles.buttonContainer} onPress={handleCollapse}>
             <Text style={appStyles.button}>{isCollapsed ? "Expand" : "Collapse"}</Text>
         </Pressable> */}
+        </View>
+        {!isCollapsed && (
+          <ScrollView>
+            <View style={mainStyles.item}>
+              <Text style={mainStyles.paragraph}>{answer}</Text>
+            </View>
+          </ScrollView>
+        )}
       </View>
-      {!isCollapsed && (
-        <ScrollView>
-          <View style={resultStyles.result}>
-            <Text style={resultStyles.content}>{answer}</Text>
-          </View>
-        </ScrollView>
-      )}
     </View>
   );
 }
