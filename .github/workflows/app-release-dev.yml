@@ -1,4 +1,4 @@
-name: app release
+name: app dev release
 on:
   push:
     branches: ['develop']
@@ -13,7 +13,7 @@ env:
 
 jobs:
   build-and-push-image:
-    name: app release
+    name: app dev release
     runs-on: ubuntu-latest
     environment:
       name: develop
