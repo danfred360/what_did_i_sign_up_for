@@ -1,4 +1,7 @@
 # deploy
+**These are not up to date, but note:**
+to mount log files, you need to create the directory first, and then mount it. Otherwise docker will create a directory with root permissions and the app will not be able to write to it.
+
 The `deploy` directory contains the files needed to deploy the application using docker compose. `vectordb.env` and `app.env` must be created using the `env.example` files as a template.
 
 ```bash

@@ -4,6 +4,7 @@ services:
   watchtower:
     container_name: watchtower-dev
     image: containrrr/watchtower
+    restart: always
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -13,6 +14,7 @@ services:
   traefik:
     image: traefik:v2.4
     container_name: reverse-proxy-dev
+    restart: always
     command:
       - --api.insecure=true
       - --providers.docker
@@ -35,6 +37,7 @@ services:
   app:
     container_name: app-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-app:develop
+    restart: always
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.app.rule=Host(`dev.npole.org`)"
@@ -45,6 +48,7 @@ services:
   api:
     container_name: api-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-api:develop
+    restart: always
     environment:
       VECTORDB_HOST: vectordb
       VECTORDB_PORT: 5432
@@ -64,6 +68,7 @@ services:
   auth:
     container_name: auth-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:develop
+    restart: always
     env_file:
       - auth.env
     volumes:
@@ -79,6 +84,7 @@ services:
   vectordb:
     container_name: vectordb-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:develop
+    restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
