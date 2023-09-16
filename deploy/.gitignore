@@ -2,6 +2,7 @@ api.env
 vectordb.env
 auth.env
 app.env
+traefik.env
 data/**
 input_files/**
 letsencrypt/

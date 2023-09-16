@@ -15,6 +15,8 @@ services:
     image: traefik:v2.4
     container_name: reverse-proxy
     restart: always
+    env_file:
+      - traefik.env
     command:
       - --api.insecure=true
       - --providers.docker
@@ -22,8 +24,8 @@ services:
       - --entrypoints.websecure.address=:443
       - --entrypoints.web.http.redirections.entryPoint.to=websecure
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
-      - --certificatesresolvers.myresolver.acme.httpchallenge=true
-      - --certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=web
+      - --certificatesresolvers.myresolver.acme.dnschallenge=true
+      - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
       - --certificatesresolvers.myresolver.acme.email=dannyfrederick360@gmail.com
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
