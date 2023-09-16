@@ -59,7 +59,7 @@ services:
       - api.env
     volumes:
       - ./input_files:/code/input_files
-      - ./logs/api:/var/log/what-did-i-sign-up-for
+      # - ./logs/api:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.api.rule=Host(`api.npole.org`)"
@@ -73,8 +73,8 @@ services:
     restart: always
     env_file:
       - auth.env
-    volumes:
-      - ./logs/api:/var/log/what-did-i-sign-up-for
+    # volumes:
+    #   - ./logs/api:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.npole.org`)"
@@ -94,4 +94,4 @@ services:
       - vectordb.env
     volumes:
       - ./data:/var/lib/postgresql/data
-      - ./logs/vectordb:/var/log/postgresql
+      # - ./logs/vectordb:/var/log/postgresql
