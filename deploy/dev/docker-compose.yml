@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   watchtower:
-    container_name: watchtower
+    container_name: watchtower-dev
     image: containrrr/watchtower
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -12,7 +12,7 @@ services:
 
   traefik:
     image: traefik:v2.4
-    container_name: reverse-proxy
+    container_name: reverse-proxy-dev
     command:
       - --api.insecure=true
       - --providers.docker
@@ -33,7 +33,7 @@ services:
       - ./letsencrypt:/letsencrypt
 
   app:
-    container_name: app
+    container_name: app-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-app:develop
     labels:
       - "traefik.enable=true"
@@ -43,7 +43,7 @@ services:
       - "traefik.http.services.app.loadbalancer.server.port=80"
 
   api:
-    container_name: api
+    container_name: api-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-api:develop
     environment:
       VECTORDB_HOST: vectordb
@@ -62,7 +62,7 @@ services:
       - "traefik.http.services.api.loadbalancer.server.port=80"
 
   auth:
-    container_name: auth
+    container_name: auth-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:latest
     env_file:
       - auth.env
@@ -77,7 +77,7 @@ services:
 
 
   vectordb:
-    container_name: vectordb
+    container_name: vectordb-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:develop
     environment:
       POSTGRES_USER: postgres
