@@ -159,6 +159,8 @@ const mainStyles = StyleSheet.create({
         borderRadius: 30,
         fontWeight: '800',
         shadowColor: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
         shadowOffset: {
             width: 5,
             height: 5,
@@ -167,6 +169,8 @@ const mainStyles = StyleSheet.create({
     },
     btn_focused: {
         translateY: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
         shadowOffset: {
             width: 1,
             height: 2,

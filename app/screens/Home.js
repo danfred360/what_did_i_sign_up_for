@@ -77,8 +77,6 @@ export default function Home() {
 
   return (
     <View>
-      <CollectionTray setSelectedCollectionId={setSelectedCollection} />
-      <FileSubmitForm collectionId={selectedCollection} />
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
 
@@ -95,6 +93,7 @@ export default function Home() {
           </Pressable>
         </View>
       </View>
+      <CollectionTray setSelectedCollectionId={setSelectedCollection} />
       {currentSection === 'question' && (
         <View style={mainStyles.form_area}>
           <View style={mainStyles.form_group}>
@@ -160,6 +159,7 @@ export default function Home() {
           <SearchResults results={documentSearchResults} /* other props here */ />
         )
       )}
+      <FileSubmitForm collectionId={selectedCollection} />
     </View>
   );
 }
