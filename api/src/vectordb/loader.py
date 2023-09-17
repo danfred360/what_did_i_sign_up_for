@@ -108,7 +108,7 @@ class DocumentLoader():
                             loaded_documents.append({'id': document['id'], 'name': document['name']})
         return loaded_documents
         
-    def load_file_from_url(self, url: str, collection_id: int = 1, file_class_id = 3, generate_embeddings: bool = False):
+    def load_file_from_url(self, user_id: str, url: str, collection_id: int = 1, file_class_id = 3, generate_embeddings: bool = False):
         loader = AsyncHtmlLoader(url)
         docs = loader.load()
         bs_transformer = BeautifulSoupTransformer()
