@@ -1,5 +1,17 @@
-CREATE TABLE  collection (
+CREATE TABLE person (
+    username TEXT PRIMARY KEY,
+    hashed_password TEXT,
+    salt TEXT,
+    first_name TEXT NULL,
+    last_name TEXT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    updated_at TIMESTAMP DEFAULT NOW(),
+    image_url TEXT NULL
+);
+
+CREATE TABLE collection (
     id SERIAL PRIMARY KEY,
+    user_id TEXT REFERENCES person(username),
     parent_collection_id INTEGER REFERENCES collection(id) NULL,
     name TEXT,
     description TEXT,
