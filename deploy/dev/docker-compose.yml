@@ -70,6 +70,9 @@ services:
     container_name: auth-dev
     image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:develop
     restart: always
+    environment:
+      VECTORDB_HOST: vectordb
+      VECTORDB_PORT: 5432
     env_file:
       - auth.env
     # volumes:
