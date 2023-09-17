@@ -32,11 +32,11 @@ export default function CollectionTray({ setSelectedCollectionId }) {
 
     const handleSubmit = async () => {
         try {
-            const newCollection = await createCollection(newCollectionName);  // Assume this function adds a new collection and returns its details
+            const newCollection = await createCollection(newCollectionName);
             setCollections([...collections, newCollection]);
             setResponse(`Collection added: ${newCollection.name}`);
-            setNewCollectionName('');  // Reset the form
-            setShowForm(false);  // Hide the form
+            setNewCollectionName('');
+            setShowForm(false);
         } catch (error) {
             console.error("Failed to add collection:", error);
         }
