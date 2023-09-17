@@ -1,6 +1,6 @@
 import os
 import psycopg2
-from psycopg2 import OperationalError
+from psycopg2 import OperationalError, sql
 import logging
 
 class VectorDBProvider:
@@ -48,10 +48,39 @@ class VectorDBProvider:
     def disconnect(self):
         self.conn.close()
 
-    def create_user(self, username, hashed_password, salt):
-        sql_query = "INSERT INTO person (username, hashed_password, salt) VALUES (%s, %s, %s)"
-        self.cursor.execute(sql_query, (username, hashed_password, salt))
+    def create_collection(self, user_id, name, description, parent_collection_id=None, image_url=None):
+        table_name = "collection"
+        response_fields = ['id', 'user_id', 'parent_collection_id', 'name', 'description', 'image_url']
+        if parent_collection_id:
+            fields = ['user_id', 'parent_collection_id', 'name', 'description']
+            values = [user_id, parent_collection_id, name, description]
+        else:
+            fields = ['user_id', 'name', 'description']
+            values = [user_id, name, description]
+        if image_url:
+            fields.append('image_url')
+            values.append(image_url)
+        query = sql.SQL('INSERT INTO {table} ({fields}) VALUES ({values}) RETURNING {response_fields}').format(
+            table=sql.Identifier(table_name),
+            fields=sql.SQL(',').join(map(sql.Identifier, fields)),
+            values=sql.SQL(',').join(map(sql.Literal, values)),
+            response_fields=sql.SQL(',').join(map(sql.Identifier, response_fields))
+        )
+        self.cursor.execute(query)
         self.conn.commit()
+        
+        response = self.cursor.fetchone()
+        if response:
+            response_dict = dict(zip(response_fields, response))
+            return response_dict
+        else:
+            raise Exception(f"Record with name {name} not created")
+
+    def create_user(self, username, hashed_password, salt):
+        user_query = "INSERT INTO person (username, hashed_password, salt) VALUES (%s, %s, %s)"
+        self.cursor.execute(user_query, (username, hashed_password, salt))
+        self.conn.commit()
+        self.create_collection(username, 'Default', f'Default collection for {username}')
 
     def get_user(self, username):
         sql_query = "SELECT username, hashed_password, salt FROM person WHERE username=%s"

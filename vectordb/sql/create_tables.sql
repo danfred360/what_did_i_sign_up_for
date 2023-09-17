@@ -11,8 +11,8 @@ CREATE TABLE person (
 
 CREATE TABLE collection (
     id SERIAL PRIMARY KEY,
-    user_id TEXT REFERENCES person(username),
-    parent_collection_id INTEGER REFERENCES collection(id) NULL,
+    user_id TEXT REFERENCES person(username) ON DELETE CASCADE,
+    parent_collection_id INTEGER REFERENCES collection(id) ON DELETE CASCADE NULL,
     name TEXT,
     description TEXT,
     image_url TEXT NULL
@@ -33,12 +33,12 @@ CREATE TABLE file (
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
     file_class_id INTEGER REFERENCES file_class(id),
-    collection_id INTEGER REFERENCES collection(id)
+    collection_id INTEGER REFERENCES collection(id) ON DELETE CASCADE
 );
 
 CREATE TABLE document (
     id SERIAL PRIMARY KEY,
-    file_id INTEGER REFERENCES file(id),
+    file_id INTEGER REFERENCES file(id) ON DELETE CASCADE,
     name TEXT,
     description TEXT NULL,
     url TEXT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE segment (
     id SERIAL PRIMARY KEY,
     embedding VECTOR(1536),
     potential_questions VECTOR(1536) NULL,
-    document_id INTEGER REFERENCES document(id),
+    document_id INTEGER REFERENCES document(id) ON DELETE CASCADE,
     start_line INTEGER NULL,
     end_line INTEGER NULL,
     content TEXT,
