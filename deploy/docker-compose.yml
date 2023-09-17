@@ -26,7 +26,6 @@ services:
       - --entrypoints.web.http.redirections.entryPoint.scheme=https
       - --certificatesresolvers.myresolver.acme.dnschallenge=true
       - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
-      - --certificatesresolvers.myresolver.acme.email=dannyfrederick360@gmail.com
       - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     ports:
       - "80:80"
@@ -74,7 +73,7 @@ services:
     env_file:
       - auth.env
     # volumes:
-    #   - ./logs/api:/var/log/what-did-i-sign-up-for
+    #   - ./logs/auth:/var/log/what-did-i-sign-up-for
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.auth.rule=Host(`auth.npole.org`)"
