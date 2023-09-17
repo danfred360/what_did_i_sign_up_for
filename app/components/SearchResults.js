@@ -1,38 +1,42 @@
+import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import resultStyles from '../styles/resultStyles';
-import appStyles from '../styles/appStyles';
+import mainStyles from '../styles/main';
 
-function SearchResults({ results, isCollapsed, setIsCollapsed }) {
+function SearchResults({ results }) {
+  const [isCollapsed, setIsCollapsed] = useState(false);
+
   if (!results || !results.results) {
     return null;
   }
 
+  const handleToggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
+
   return (
-    <View style={[resultStyles.resultsContainer, { maxHeight: isCollapsed ? 70 : undefined }]}>
-      <View style={resultStyles.resultsHeader}>
-        <Text style={resultStyles.title}>Search Results</Text>
-        <TouchableOpacity style={appStyles.buttonContainer} onPress={() => setIsCollapsed(!isCollapsed)}>
-          <Text style={appStyles.button}>{isCollapsed ? "Expand" : "Collapse"}</Text>
-        </TouchableOpacity>
-      </View>
-      {!isCollapsed && (
-        <ScrollView>
-        <View style={resultStyles.scrollContainer}>
-          
-            <View >
-              <Text style={resultStyles.count}>Count: {results.count}</Text>
+    <View style={mainStyles.form_area}>
+      <View style={[mainStyles.form_group, isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container]}>
+        <View style={mainStyles.form_header}>
+          <Text style={mainStyles.sub_title}>Search Results</Text>
+          <TouchableOpacity style={mainStyles.btn} onPress={handleToggleCollapse}>
+            <Text style={mainStyles.text}>{isCollapsed ? 'Expand' : 'Collapse'}</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container}>
+          <View style={mainStyles.form_group}>
+            <Text style={mainStyles.countLabel}>Count: {results.count}</Text>
+            <ScrollView>
               {results.results.map((result) => (
-                <View key={result.id} style={resultStyles.result}>
-                  <Text>Document ID: {result.document_id}</Text>
-                  <Text style={resultStyles.content}>{result.content}</Text>
-                  <Text>Updated: {result.created_at}</Text>
+                <View key={result.id} style={mainStyles.item}>
+                  <Text style={mainStyles.text}>Document ID: {result.document_id}</Text>
+                  <Text style={mainStyles.paragraph}>{result.content}</Text>
+                  <Text style={mainStyles.text}>Updated: {result.created_at}</Text>
                 </View>
               ))}
-            </View>
-          
+            </ScrollView>
+          </View>
         </View>
-        </ScrollView>
-      )}
+      </View>
     </View>
   );
 }
