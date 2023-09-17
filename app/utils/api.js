@@ -14,6 +14,25 @@ async function listCollections() {
   return data;
 }
 
+async function createCollection(name) {
+  try {
+    const storedToken = await AsyncStorage.getItem('token');
+    const response = await fetch(`${API_URL}/collections`,
+    {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${storedToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ name, 'description': 'changeme' }),
+    });
+    const data = await response.json();
+    return data;
+  } catch(error) {
+    console.error('An error occurred creating collection:', error);
+  }
+}
+
 async function loadFile(collectionId, url) {
   try {
     const storedToken = await AsyncStorage.getItem('token');
@@ -29,7 +48,7 @@ async function loadFile(collectionId, url) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('An error occurred:', error);
+    console.error('An error occurred loading file:', error);
   }
 }
 
@@ -57,4 +76,4 @@ async function searchQuestions(question, numResults, collectionId) {
   return data;
 }
 
-export { listCollections, loadFile, searchDocuments, searchQuestions };
+export { listCollections, createCollection, loadFile, searchDocuments, searchQuestions };
