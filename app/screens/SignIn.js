@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TextInput, Pressable } from 'react-native';
-import appStyles from '../styles/appStyles';
 import signInStyles from '../styles/signInStyles';
 import mainStyles from '../styles/main';
 import base64 from 'base-64';

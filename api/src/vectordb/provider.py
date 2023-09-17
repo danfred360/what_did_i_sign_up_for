@@ -54,14 +54,14 @@ class VectorDBProvider:
 
     # collections
 
-    def list_collections(self):
+    def list_collections(self, user_id: int):
         table_name = "collection"
-        fields = ['id', 'parent_collection_id', 'name', 'description', 'image_url']
-        query = sql.SQL('SELECT {fields} FROM {table}').format(
+        fields = ['id', 'user_id', 'parent_collection_id', 'name', 'description', 'image_url']
+        query = sql.SQL('SELECT {fields} FROM collection WHERE user_id=%s').format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),
             table=sql.Identifier(table_name)
         )
-        self.cursor.execute(query)
+        self.cursor.execute(query, (user_id,))
 
         response =  self.cursor.fetchall()
         if response:
@@ -132,24 +132,15 @@ class VectorDBProvider:
         else:
             raise RecordNotFound(f"Records with ids {collection_ids} not found")
 
-    def create_collection(self, name, description, parent_collection_id=None, image_url=None):
-        if not name or not description:
-            raise ValueError('Name and description are required')
-        if not isinstance(name, str) or not isinstance(description, str):
-            raise ValueError('Name and description must be strings')
-        if parent_collection_id and not isinstance(parent_collection_id, int):
-            raise ValueError('Parent collection id must be an integer')
-        if image_url and not isinstance(image_url, str):
-            raise ValueError('Image url must be a string')
-        
+    def create_collection(self, name: str, user_id: int, description: str, parent_collection_id: int = None, image_url: int = None):
         table_name = "collection"
-        response_fields = ['id', 'parent_collection_id', 'name', 'description', 'image_url']
+        response_fields = ['id', 'user_id', 'parent_collection_id', 'name', 'description', 'image_url']
         if parent_collection_id:
-            fields = ['parent_collection_id', 'name', 'description']
-            values = [parent_collection_id, name, description]
+            fields = ['user_id', 'parent_collection_id', 'name', 'description']
+            values = [user_id, parent_collection_id, name, description]
         else:
-            fields = ['name', 'description']
-            values = [name, description]
+            fields = ['user_id', 'name', 'description']
+            values = [user_id, name, description]
         if image_url:
             fields.append('image_url')
             values.append(image_url)
