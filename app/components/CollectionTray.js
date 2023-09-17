@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Pressable } from 'react-native';
+import { View, Text, Pressable, TextInput, ScrollView } from 'react-native';
 import { listCollections, createCollection } from '../utils/api';
 import mainStyles from '../styles/main';
 
@@ -45,19 +45,23 @@ export default function CollectionTray({ setSelectedCollectionId }) {
     return (
         <View style={mainStyles.form_area}>
             <Text style={mainStyles.title}>COLLECTIONS</Text>
-            {collections.map((collection) => (
-                <TouchableOpacity
-                    key={collection.id}
-                    onPress={() => handleSelectCollection(collection.id)}
-                    style={activeCollectionId === collection.id ? mainStyles.collectionItemActive : mainStyles.collectionItem}
-                >
-                    <Text style={mainStyles.text}>{collection.name}</Text>
-                </TouchableOpacity>
-            ))}
-            <View style={mainStyles.form_group}>
-                <TouchableOpacity onPress={() => setShowForm(!showForm)} style={mainStyles.btn}>
+            <View style={mainStyles.form_group_horizontal}>
+                <ScrollView horizontal={true}>
+                {collections.map((collection) => (
+                    <Pressable
+                        key={collection.id}
+                        onPress={() => handleSelectCollection(collection.id)}
+                        style={activeCollectionId === collection.id ? mainStyles.btn_active : mainStyles.btn}
+                    >
+                        <Text style={mainStyles.text}>{collection.name}</Text>
+                    </Pressable>
+                ))}
+                <Pressable onPress={() => setShowForm(!showForm)} style={mainStyles.btn}>
                     <Text style={mainStyles.text}>+</Text>
-                </TouchableOpacity>
+                </Pressable>
+                </ScrollView>
+            </View>
+            <View style={mainStyles.form_group}>
                 {showForm && (
                     <View>
                         <TextInput

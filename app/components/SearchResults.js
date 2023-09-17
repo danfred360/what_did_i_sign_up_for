@@ -22,10 +22,10 @@ function SearchResults({ results }) {
             <Text style={mainStyles.text}>{isCollapsed ? 'Expand' : 'Collapse'}</Text>
           </TouchableOpacity>
         </View>
-        <View style={isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container}>
+        <View style={[mainStyles.form_group, isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container]}>
           <View style={mainStyles.form_group}>
             <Text style={mainStyles.countLabel}>Count: {results.count}</Text>
-            <ScrollView>
+            {/* <ScrollView> */}
               {results.results.map((result) => (
                 <View key={result.id} style={mainStyles.item}>
                   <Text style={mainStyles.text}>Document ID: {result.document_id}</Text>
@@ -33,7 +33,7 @@ function SearchResults({ results }) {
                   <Text style={mainStyles.text}>Updated: {result.created_at}</Text>
                 </View>
               ))}
-            </ScrollView>
+            {/* </ScrollView> */}
           </View>
         </View>
       </View>

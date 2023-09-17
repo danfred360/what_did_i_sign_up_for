@@ -59,11 +59,8 @@ const SignInPage = ({ onTokenReceived }) => {
 
   return (
     <SafeAreaView style={mainStyles.parent_container}>
-      <Pressable onPress={() => setShowSignUp(!showSignUp)}>
-        <Text style={mainStyles.toggle}>{showSignUp ? 'Show Sign In' : 'Show Sign Up'}</Text>
-      </Pressable>
-      <Text style={mainStyles.title}>{showSignUp ? 'SIGN UP' : 'SIGN IN'}</Text>
       <View style={mainStyles.form_area}>
+      <Text style={mainStyles.title}>{showSignUp ? 'SIGN UP' : 'SIGN IN'}</Text>
         <View style={mainStyles.form_group}>
           <TextInput
             style={mainStyles.form_style}
@@ -83,9 +80,13 @@ const SignInPage = ({ onTokenReceived }) => {
             secureTextEntry
           />
         </View>
-        <View style={mainStyles.form_group}>
+        <View style={mainStyles.form_group_horizontal}>
           <Pressable style={mainStyles.btn} onPress={showSignUp ? handleSignUp : handleSignIn}>
             <Text style={mainStyles.text}>{showSignUp ? 'Sign Up' : 'Sign In'}</Text>
+          </Pressable>
+          <Pressable style={mainStyles.btn} onPress={() => setShowSignUp(!showSignUp)}>
+            <Text style={mainStyles.text}>
+              {showSignUp ? 'Switch to Sign In' : 'Switch to Sign Up'}</Text>
           </Pressable>
           {error ? (
             <View style={signInStyles.errorCard}>

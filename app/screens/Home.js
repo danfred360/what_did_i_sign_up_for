@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import {
-  SafeAreaView,
   View,
   TextInput,
   ActivityIndicator,
   Pressable,
   Text,
+  ScrollView
 } from 'react-native';
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
@@ -76,18 +76,17 @@ export default function Home() {
   const [currentSection, setCurrentSection] = useState('question');
 
   return (
-    <View>
+    <ScrollView>
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
-
-        <View style={mainStyles.toggleButtonGroup}>
+        <View style={mainStyles.form_group_horizontal}>
           <Pressable
-            style={[mainStyles.toggleButton, currentSection === 'question' ? mainStyles.toggleButtonActive : {}]}
+            style={[mainStyles.btn, currentSection === 'question' ? mainStyles.btn_active : {}]}
             onPress={() => setCurrentSection('question')}>
             <Text style={mainStyles.text}>Questions</Text>
           </Pressable>
           <Pressable
-            style={[mainStyles.toggleButton, currentSection === 'search' ? mainStyles.toggleButtonActive : {}]}
+            style={[mainStyles.btn, currentSection === 'search' ? mainStyles.btn_active : {}]}
             onPress={() => setCurrentSection('search')}>
             <Text style={mainStyles.text}>Search</Text>
           </Pressable>
@@ -96,8 +95,8 @@ export default function Home() {
       <CollectionTray setSelectedCollectionId={setSelectedCollection} />
       {currentSection === 'question' && (
         <View style={mainStyles.form_area}>
-          <View style={mainStyles.form_group}>
-            <Text style={mainStyles.sub_title}>Question</Text>
+          <Text style={mainStyles.title}>QUESTION</Text>
+          <View style={mainStyles.form_group_horizontal}>
             <TextInput
               style={[mainStyles.form_style, questionBarIsFocused ? mainStyles.form_style_focused : null]}
               placeholder="Ask a question..."
@@ -129,8 +128,8 @@ export default function Home() {
 
       {currentSection === 'search' && (
         <View style={mainStyles.form_area}>
-          <View style={mainStyles.form_group}>
-            <Text style={mainStyles.sub_title}>Search</Text>
+          <Text style={mainStyles.title}>SEARCH</Text>
+          <View style={mainStyles.form_group_horizontal}>
             <TextInput
               style={[mainStyles.form_style, searchBarIsFocused ? mainStyles.form_style_focused : null]}
               placeholder="Enter a search query..."
@@ -160,6 +159,6 @@ export default function Home() {
         )
       )}
       <FileSubmitForm collectionId={selectedCollection} />
-    </View>
+    </ScrollView>
   );
 }

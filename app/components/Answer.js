@@ -1,6 +1,5 @@
 import { useState, useRef } from 'react';
 import { View, Text, Pressable, ScrollView } from 'react-native';
-import resultStyles from '../styles/resultStyles';
 import mainStyles from '../styles/main';
 
 function Answer({ answer }) {
@@ -30,11 +29,9 @@ function Answer({ answer }) {
         </Pressable> */}
         </View>
         {!isCollapsed && (
-          <ScrollView>
             <View style={mainStyles.item}>
               <Text style={mainStyles.paragraph}>{answer}</Text>
             </View>
-          </ScrollView>
         )}
       </View>
     </View>
