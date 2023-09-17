@@ -10,6 +10,7 @@ import {
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
 import CollectionTray from '../components/CollectionTray';
+import FileSubmitForm from '../components/FileSubmitForm';
 import searchStyles from '../styles/searchStyles';
 import mainStyles from '../styles/main';
 import { searchDocuments, searchQuestions } from '../utils/api';
@@ -77,6 +78,7 @@ export default function Home() {
   return (
     <View>
       <CollectionTray setSelectedCollectionId={setSelectedCollection} />
+      <FileSubmitForm collectionId={selectedCollection} />
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
 
