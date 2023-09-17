@@ -45,7 +45,7 @@ async def list_collections(current_user: User = Depends(get_current_user)):
         raise HTTPException(status_code=404, detail="Collections not found")
     return collections
 
-@collection_router.post("/collections/", response_model=Collection, tags=['collection'])
+@collection_router.post("/collections", response_model=Collection, tags=['collection'])
 async def create_collection(collection: CreateCollection, current_user: User = Depends(get_current_user)):
     provider = VectorDBProvider()
     provider.connect()
