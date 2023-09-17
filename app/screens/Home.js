@@ -9,22 +9,22 @@ import {
 } from 'react-native';
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
+import CollectionTray from '../components/CollectionTray';
 import searchStyles from '../styles/searchStyles';
 import mainStyles from '../styles/main';
 import { searchDocuments, searchQuestions } from '../utils/api';
 
-const useSearch = (searchFunction) => {
+const useSearch = (searchFunction, selectedCollection) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [inputIsFocused, setInputIsFocused] = useState(false);
   const [btnIsFocused, setBtnIsFocused] = useState(false);
 
   const handleSearch = async () => {
     setIsLoading(true);
     try {
-      const data = await searchFunction(searchTerm, 5);
+      const data = await searchFunction(searchTerm, 5, selectedCollection);
       setSearchResults(data);
     } catch (error) {
       setSearchResults(`Error: ${error}`);
@@ -37,8 +37,6 @@ const useSearch = (searchFunction) => {
     setSearchTerm,
     searchResults,
     isLoading,
-    isCollapsed,
-    setIsCollapsed,
     handleSearch,
     inputIsFocused,
     setInputIsFocused,
@@ -47,7 +45,9 @@ const useSearch = (searchFunction) => {
   };
 };
 
-export default function Home(handleSignOut) {
+export default function Home() {
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
   const {
     searchTerm: documentSearchTerm,
     setSearchTerm: setDocumentSearchTerm,
@@ -58,8 +58,7 @@ export default function Home(handleSignOut) {
     setInputIsFocused: setSearchBarIsFocused,
     btnIsFocused: searchBtnIsFocused,
     setBtnIsFocused: setSearchBtnIsFocused,
-    results
-  } = useSearch(searchDocuments);
+  } = useSearch(searchDocuments, selectedCollection);
 
   const {
     searchTerm: questionSearchTerm,
@@ -71,12 +70,13 @@ export default function Home(handleSignOut) {
     setInputIsFocused: setQuestionBarIsFocused,
     btnIsFocused: questionBtnIsFocused,
     setBtnIsFocused: setQuestionBtnIsFocused,
-  } = useSearch(searchQuestions);
+  } = useSearch(searchQuestions, selectedCollection);
 
   const [currentSection, setCurrentSection] = useState('question');
 
   return (
     <View>
+      <CollectionTray setSelectedCollectionId={setSelectedCollection} />
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
 

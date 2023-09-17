@@ -40,9 +40,9 @@ const mainStyles = StyleSheet.create({
         shadowRadius: 2,
         width: '90%',
         margin: Platform.select({
-            ios: 40,
+            ios: 20,
             android: 20,
-            web: 40,
+            web: 20,
             default: 20,
         }),
     },
@@ -217,6 +217,31 @@ const mainStyles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+      },
+      collectionTray: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        margin: Platform.select({
+          ios: 40,
+          android: 20,
+          web: 40,
+          default: 20,
+        }),
+      },
+      collectionItem: {
+        backgroundColor: '#E0E0E0',
+        borderRadius: 50,
+        padding: 20,
+        margin: 10,
+      },
+      collectionItemActive: {
+        backgroundColor: '#7b4397',
+        borderRadius: 50,
+        padding: 20,
+        margin: 10,
       },
 });
 
