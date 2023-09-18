@@ -16,6 +16,7 @@ const mainStyles = StyleSheet.create({
     fixed_container: {
         maxHeight: 125,
         overflow: 'hidden',
+        justifyContent: 'flex-start',
     },
     expandable_container: {
         maxHeight: 'auto',
@@ -27,8 +28,8 @@ const mainStyles = StyleSheet.create({
         borderRadius: 20,
         shadowColor: '#52206b',
         shadowOffset: {
-            width: 30,
-            height: 35,
+            width: 10,
+            height: 10,
         },
         shadowOpacity: 0.2,
         shadowRadius: 2,
@@ -38,30 +39,16 @@ const mainStyles = StyleSheet.create({
             web: 20,
             default: 20,
         }),
-    },
-    form_area_dynamic_width: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#fff',
-        borderRadius: 20,
-        shadowColor: '#52206b',
-        shadowOffset: {
-            width: 30,
-            height: 35,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        flex: 1,
-        margin: Platform.select({
-            ios: 40,
-            android: 20,
-            web: 40,
-            default: 20,
+        width: Platform.select({
+            ios: 350,
+            android: 350,
+            web: 350,
+            default: 350,
         }),
     },
     settings_area: {
         position: 'absolute',
-        right: 20,
+        left: 20,
         top: 0,
         alignItems: 'center',
         justifyContent: 'center',
@@ -95,6 +82,12 @@ const mainStyles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
+        width: Platform.select({
+            ios: 290,
+            android: 290,
+            web: 290,
+            default: 290,
+        }),
     },
     title: {
         color: '#7b4397',
@@ -121,12 +114,24 @@ const mainStyles = StyleSheet.create({
         margin: 20,
         alignItems: 'center',
         justifyContent: 'center',
+        width: Platform.select({
+            ios: 300,
+            android: 300,
+            web: 300,
+            default: 300,
+        }),
     },
     form_group_horizontal: {
         flexDirection: 'row',
         margin: 20,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
+        width: Platform.select({
+            ios: 300,
+            android: 300,
+            web: 300,
+            default: 300,
+        }),
     },
     form_style: {
         borderWidth: 2,
@@ -141,7 +146,13 @@ const mainStyles = StyleSheet.create({
         borderRadius: 4,
         fontSize: 15,
         backgroundColor: '#fff',
-        minWidth: 200,
+        width: Platform.select({
+            ios: 200,
+            android: 200,
+            web: 200,
+            default: 200,
+        }),
+        height: 50,
     },
     form_style_focused: {
         translateY: 4,
@@ -152,10 +163,11 @@ const mainStyles = StyleSheet.create({
     },
     btn: {
         padding: 15,
-        margin: 30,
+        marginVertical: 30,
+        marginHorizontal: 10,
         minWidth: 50,
         fontSize: 15,
-        backgroundColor: '#fff',
+        backgroundColor: 'gray', // '#fff',
         borderRadius: 30,
         fontWeight: '800',
         shadowColor: '#000',
@@ -171,6 +183,7 @@ const mainStyles = StyleSheet.create({
         backgroundColor: '#7b4397',
         padding: 15,
         marginVertical: 30,
+        marginHorizontal: 10,
         minWidth: 50,
         fontSize: 15,
         borderRadius: 30,
@@ -215,7 +228,7 @@ const mainStyles = StyleSheet.create({
             web: 40,
             default: 20,
         }),
-        right: 20,  // Padding from right
+        left: 20,
         zIndex: 1,
       },
       settingsButton: {
