@@ -79,11 +79,11 @@ export default function Home() {
     <ScrollView>
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
-        <View style={mainStyles.form_group_horizontal}>
+        <View style={[mainStyles.form_group_horizontal_centered]}>
           <Pressable
             style={[mainStyles.btn, currentSection === 'question' ? mainStyles.btn_active : {}]}
             onPress={() => setCurrentSection('question')}>
-            <Text style={mainStyles.text}>Questions</Text>
+            <Text style={mainStyles.text}>Question</Text>
           </Pressable>
           <Pressable
             style={[mainStyles.btn, currentSection === 'search' ? mainStyles.btn_active : {}]}

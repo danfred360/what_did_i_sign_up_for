@@ -41,7 +41,7 @@ const mainStyles = StyleSheet.create({
         }),
         width: Platform.select({
             ios: 350,
-            android: 350,
+            android: 325,
             web: 350,
             default: 350,
         }),
@@ -120,12 +120,24 @@ const mainStyles = StyleSheet.create({
             web: 300,
             default: 300,
         }),
-    },
+    }, 
     form_group_horizontal: {
         flexDirection: 'row',
         margin: 20,
         alignItems: 'center',
         justifyContent: 'flex-start',
+        width: Platform.select({
+            ios: 300,
+            android: 300,
+            web: 300,
+            default: 300,
+        }),
+    },
+    form_group_horizontal_centered: {
+        flexDirection: 'row',
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
         width: Platform.select({
             ios: 300,
             android: 300,
@@ -224,7 +236,7 @@ const mainStyles = StyleSheet.create({
         position: 'absolute',
         top: Platform.select({
             ios: 60,
-            android: 20,
+            android: 50,
             web: 40,
             default: 20,
         }),
