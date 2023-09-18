@@ -5,19 +5,13 @@ const mainStyles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#D1C4E9',
+        backgroundColor: '#7b4397',
         padding: Platform.select({
             ios: 40,
             android: 20,
-            web: 40,
+            web: 20,
             default: 20,
         }),
-    },
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#7b4397',
     },
     fixed_container: {
         maxHeight: 125,
@@ -29,7 +23,7 @@ const mainStyles = StyleSheet.create({
     form_area: {
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: '#D1C4E9',
         borderRadius: 20,
         shadowColor: '#52206b',
         shadowOffset: {
@@ -38,11 +32,10 @@ const mainStyles = StyleSheet.create({
         },
         shadowOpacity: 0.2,
         shadowRadius: 2,
-        width: '90%',
         margin: Platform.select({
-            ios: 40,
+            ios: 20,
             android: 20,
-            web: 40,
+            web: 20,
             default: 20,
         }),
     },
@@ -68,8 +61,8 @@ const mainStyles = StyleSheet.create({
     },
     settings_area: {
         position: 'absolute',
-        right: 20, // Positioned to the right of the settings button
-        top: 0, // Aligns to the top of the settings button
+        right: 20,
+        top: 0,
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#fff',
@@ -125,9 +118,15 @@ const mainStyles = StyleSheet.create({
     },
     form_group: {
         flexDirection: 'column',
-        alignItems: 'baseline',
         margin: 20,
-        justifyContent: 'flex-start',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    form_group_horizontal: {
+        flexDirection: 'row',
+        margin: 20,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     form_style: {
         borderWidth: 2,
@@ -138,10 +137,11 @@ const mainStyles = StyleSheet.create({
             height: 4,
         },
         shadowOpacity: 1,
-        width: 290,
         padding: 12,
         borderRadius: 4,
         fontSize: 15,
+        backgroundColor: '#fff',
+        minWidth: 200,
     },
     form_style_focused: {
         translateY: 4,
@@ -152,13 +152,32 @@ const mainStyles = StyleSheet.create({
     },
     btn: {
         padding: 15,
-        marginVertical: 30,
-        width: 310,
+        margin: 30,
+        minWidth: 50,
         fontSize: 15,
-        backgroundColor: '#7b4397',
+        backgroundColor: '#fff',
         borderRadius: 30,
         fontWeight: '800',
         shadowColor: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowOffset: {
+            width: 5,
+            height: 5,
+        },
+        shadowOpacity: 1,
+    },
+    btn_active: {
+        backgroundColor: '#7b4397',
+        padding: 15,
+        marginVertical: 30,
+        minWidth: 50,
+        fontSize: 15,
+        borderRadius: 30,
+        fontWeight: '800',
+        shadowColor: '#000',
+        alignItems: 'center',
+        justifyContent: 'center',
         shadowOffset: {
             width: 5,
             height: 5,
@@ -166,7 +185,10 @@ const mainStyles = StyleSheet.create({
         shadowOpacity: 1,
     },
     btn_focused: {
+        backgroundColor: '#7b4397',
         translateY: 4,
+        alignItems: 'center',
+        justifyContent: 'center',
         shadowOffset: {
             width: 1,
             height: 2,
@@ -217,6 +239,31 @@ const mainStyles = StyleSheet.create({
         padding: 10,
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
+      },
+      collectionTray: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 20,
+        margin: Platform.select({
+          ios: 40,
+          android: 20,
+          web: 40,
+          default: 20,
+        }),
+      },
+      collectionItem: {
+        backgroundColor: '#E0E0E0',
+        borderRadius: 50,
+        padding: 20,
+        margin: 10,
+      },
+      collectionItemActive: {
+        backgroundColor: '#7b4397',
+        borderRadius: 50,
+        padding: 20,
+        margin: 10,
       },
 });
 

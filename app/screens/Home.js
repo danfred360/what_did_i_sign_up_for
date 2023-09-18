@@ -1,30 +1,31 @@
 import { useState } from 'react';
 import {
-  SafeAreaView,
   View,
   TextInput,
   ActivityIndicator,
   Pressable,
   Text,
+  ScrollView
 } from 'react-native';
 import Answer from '../components/Answer';
 import SearchResults from '../components/SearchResults';
+import CollectionTray from '../components/CollectionTray';
+import FileSubmitForm from '../components/FileSubmitForm';
 import searchStyles from '../styles/searchStyles';
 import mainStyles from '../styles/main';
 import { searchDocuments, searchQuestions } from '../utils/api';
 
-const useSearch = (searchFunction) => {
+const useSearch = (searchFunction, selectedCollection) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const [inputIsFocused, setInputIsFocused] = useState(false);
   const [btnIsFocused, setBtnIsFocused] = useState(false);
 
   const handleSearch = async () => {
     setIsLoading(true);
     try {
-      const data = await searchFunction(searchTerm, 5);
+      const data = await searchFunction(searchTerm, 5, selectedCollection);
       setSearchResults(data);
     } catch (error) {
       setSearchResults(`Error: ${error}`);
@@ -37,8 +38,6 @@ const useSearch = (searchFunction) => {
     setSearchTerm,
     searchResults,
     isLoading,
-    isCollapsed,
-    setIsCollapsed,
     handleSearch,
     inputIsFocused,
     setInputIsFocused,
@@ -47,7 +46,9 @@ const useSearch = (searchFunction) => {
   };
 };
 
-export default function Home(handleSignOut) {
+export default function Home() {
+  const [selectedCollection, setSelectedCollection] = useState(null);
+
   const {
     searchTerm: documentSearchTerm,
     setSearchTerm: setDocumentSearchTerm,
@@ -58,8 +59,7 @@ export default function Home(handleSignOut) {
     setInputIsFocused: setSearchBarIsFocused,
     btnIsFocused: searchBtnIsFocused,
     setBtnIsFocused: setSearchBtnIsFocused,
-    results
-  } = useSearch(searchDocuments);
+  } = useSearch(searchDocuments, selectedCollection);
 
   const {
     searchTerm: questionSearchTerm,
@@ -71,32 +71,32 @@ export default function Home(handleSignOut) {
     setInputIsFocused: setQuestionBarIsFocused,
     btnIsFocused: questionBtnIsFocused,
     setBtnIsFocused: setQuestionBtnIsFocused,
-  } = useSearch(searchQuestions);
+  } = useSearch(searchQuestions, selectedCollection);
 
   const [currentSection, setCurrentSection] = useState('question');
 
   return (
-    <View>
+    <ScrollView>
       <View style={mainStyles.form_area}>
         <Text style={mainStyles.title}>EXPLORE</Text>
-
-        <View style={mainStyles.toggleButtonGroup}>
+        <View style={mainStyles.form_group_horizontal}>
           <Pressable
-            style={[mainStyles.toggleButton, currentSection === 'question' ? mainStyles.toggleButtonActive : {}]}
+            style={[mainStyles.btn, currentSection === 'question' ? mainStyles.btn_active : {}]}
             onPress={() => setCurrentSection('question')}>
             <Text style={mainStyles.text}>Questions</Text>
           </Pressable>
           <Pressable
-            style={[mainStyles.toggleButton, currentSection === 'search' ? mainStyles.toggleButtonActive : {}]}
+            style={[mainStyles.btn, currentSection === 'search' ? mainStyles.btn_active : {}]}
             onPress={() => setCurrentSection('search')}>
             <Text style={mainStyles.text}>Search</Text>
           </Pressable>
         </View>
       </View>
+      <CollectionTray setSelectedCollectionId={setSelectedCollection} />
       {currentSection === 'question' && (
         <View style={mainStyles.form_area}>
-          <View style={mainStyles.form_group}>
-            <Text style={mainStyles.sub_title}>Question</Text>
+          <Text style={mainStyles.title}>QUESTION</Text>
+          <View style={mainStyles.form_group_horizontal}>
             <TextInput
               style={[mainStyles.form_style, questionBarIsFocused ? mainStyles.form_style_focused : null]}
               placeholder="Ask a question..."
@@ -128,8 +128,8 @@ export default function Home(handleSignOut) {
 
       {currentSection === 'search' && (
         <View style={mainStyles.form_area}>
-          <View style={mainStyles.form_group}>
-            <Text style={mainStyles.sub_title}>Search</Text>
+          <Text style={mainStyles.title}>SEARCH</Text>
+          <View style={mainStyles.form_group_horizontal}>
             <TextInput
               style={[mainStyles.form_style, searchBarIsFocused ? mainStyles.form_style_focused : null]}
               placeholder="Enter a search query..."
@@ -158,6 +158,7 @@ export default function Home(handleSignOut) {
           <SearchResults results={documentSearchResults} /* other props here */ />
         )
       )}
-    </View>
+      <FileSubmitForm collectionId={selectedCollection} />
+    </ScrollView>
   );
 }
