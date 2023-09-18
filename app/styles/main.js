@@ -14,7 +14,7 @@ const mainStyles = StyleSheet.create({
         }),
     },
     fixed_container: {
-        maxHeight: 125,
+        maxHeight: 150,
         overflow: 'hidden',
         justifyContent: 'flex-start',
     },
@@ -277,6 +277,10 @@ const mainStyles = StyleSheet.create({
         borderRadius: 50,
         padding: 20,
         margin: 10,
+      },
+      loading: {
+        marginTop: 20,
+        marginBottom: 20,
       },
 });
 
