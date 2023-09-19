@@ -17,13 +17,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
+    - name: Set up bun
+      uses: oven-sh/setup-bun@v1
       with:
-        node-version: '20.x'
+        version: '1.0.0'
     - name: Install dependencies
-      run: yarn install
+      run: bun install --production --frozen-lockfile
       working-directory: ${{ env.SOURCE_DIRECTORY }}
     - name: Build app
-      run: yarn build
+      run: bun build
       working-directory: ${{ env.SOURCE_DIRECTORY }}
