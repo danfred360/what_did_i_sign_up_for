@@ -2,7 +2,7 @@ name: app gate
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'app/**'
   workflow_dispatch:

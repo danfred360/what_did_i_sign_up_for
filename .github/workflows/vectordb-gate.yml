@@ -2,7 +2,7 @@ name: vectordb gate
 
 on:
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
     paths:
       - 'vectordb/**'
   workflow_dispatch:

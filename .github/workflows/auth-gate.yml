@@ -1,7 +1,7 @@
 name: auth gate
 on:
   pull_request:
-    branches: [main]
+    branches: [ main, develop ]
     paths:
       - 'auth/**'
   workflow_dispatch:
