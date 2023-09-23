@@ -31,8 +31,8 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "API_URL": "https://api-dev.npole.org",
-      "AUTH_URL": "https://auth-dev.npole.org",
+      "API_URL": "http://localhost:8000",
+      "AUTH_URL": "http://localhost:8001",
       "eas": {
         "projectId": "89582e97-7813-4d92-b33f-64d7ba894fd9"
       }

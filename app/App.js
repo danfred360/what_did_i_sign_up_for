@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Home from './screens/Home';
-import SignIn from './screens/SignIn';
-import mainStyles from './styles/main'; 
-import SettingsTray from './components/SettingsTray';
+import Home from './src/screens/Home';
+import SignIn from './src/screens/SignIn';
+import mainStyles from './src/styles/main'; 
+import SettingsTray from './src/components/SettingsTray';
 
 
 export default function App() {
