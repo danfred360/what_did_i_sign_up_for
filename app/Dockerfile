@@ -1,16 +1,13 @@
-FROM node:20 as build-stage
+FROM oven/bun:1.0 as build-stage 
+
+COPY . /app
 
 WORKDIR /app
 
-COPY package*.json /app/
-COPY yarn.lock /app/
+RUN bun install --production --frozen-lockfile
 
-RUN yarn install
+# RUN bun run build
 
-COPY ./ /app/
+# FROM nginx:latest
 
-RUN yarn expo export:web
-
-FROM nginx:1.25.2
-
-COPY --from=build-stage /app/web-build/ /usr/share/nginx/html
+# COPY --from=build-stage /app/web-build/ /usr/share/nginx/html

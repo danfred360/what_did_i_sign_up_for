@@ -19,9 +19,11 @@ class SearchProvider:
         search_query = """
             SELECT {fields}
             FROM ({base_query}) AS relevant_segments
-            ORDER BY {embedding_column_name} <-> CAST(%s AS vector)
+            ORDER BY {embedding_column_name} < -> CAST(%s AS vector)
             LIMIT %s
         """
+
+        # <=>
 
         query = sql.SQL(search_query).format(
             fields=sql.SQL(',').join(map(sql.Identifier, fields)),

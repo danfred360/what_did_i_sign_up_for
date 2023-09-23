@@ -24,7 +24,6 @@ function SearchResults({ results }) {
         </View>
         <View style={[mainStyles.form_group, isCollapsed ? mainStyles.fixed_container : mainStyles.expandable_container]}>
           <Text style={mainStyles.countLabel}>Count: {results.count}</Text>
-          {/* <ScrollView> */}
           {results.results.map((result) => (
             <View key={result.id} style={mainStyles.item}>
               <Text style={mainStyles.text}>Document ID: {result.document_id}</Text>
@@ -32,7 +31,6 @@ function SearchResults({ results }) {
               <Text style={mainStyles.text}>Updated: {result.created_at}</Text>
             </View>
           ))}
-          {/* </ScrollView> */}
           <TouchableOpacity style={mainStyles.btn} onPress={handleToggleCollapse}>
             <Text style={mainStyles.text}>{isCollapsed ? 'Expand' : 'Collapse'}</Text>
           </TouchableOpacity>

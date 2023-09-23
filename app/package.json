@@ -35,7 +35,11 @@
     "react-navigation-drawer": "^2.7.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.22.19"
+    "@babel/core": "^7.22.19",
+    "bun-types": "latest"
   },
-  "private": true
+  "private": true,
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
 }
