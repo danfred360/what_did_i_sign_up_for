@@ -17,4 +17,6 @@ RUN chown -R api:api /var/log/what-did-i-sign-up-for
 
 USER api
 
-CMD ["uvicorn", "api.main:app", "--host", "0.0.0.0", "--port", "80", "--log-config", "api/logging_config.json"]
+ENTRYPOINT ["uvicorn"]
+
+CMD ["api.main:app", "--host", "0.0.0.0", "--port", "8081", "--log-config", "api/logging_config.json"]

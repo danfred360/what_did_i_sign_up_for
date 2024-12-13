@@ -1,7 +1,8 @@
 import Constants from 'expo-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = Constants.expoConfig.extra.API_URL || 'http://localhost:8000';
+// const API_URL = Constants.expoConfig.extra.API_URL || 'http://localhost:8083';
+const API_URL = 'http://localhost:8083';
 
 async function listCollections() {
   const storedToken = await AsyncStorage.getItem('token');

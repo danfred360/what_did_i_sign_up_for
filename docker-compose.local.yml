@@ -1,0 +1,120 @@
+services:
+  # traefik:
+  #   image: traefik:v2.4
+  #   container_name: reverse-proxy-dev
+  #   restart: always
+  #   env_file:
+  #     - traefik.env
+  #   command:
+  #     - --api.insecure=true
+  #     - --providers.docker
+  #     - --entrypoints.web.address=:80
+  #     - --entrypoints.websecure.address=:443
+  #     - --entrypoints.web.http.redirections.entryPoint.to=websecure
+  #     - --entrypoints.web.http.redirections.entryPoint.scheme=https
+  #     - --certificatesresolvers.myresolver.acme.dnschallenge=true
+  #     - --certificatesresolvers.myresolver.acme.dnschallenge.provider=cloudflare
+  #     - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #     - "8080:8080" # Traefik dashboard
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - ./letsencrypt:/letsencrypt
+
+  app:
+    container_name: app-dev
+    # image: ghcr.io/danfred360/what_did_i_sign_up_for-app:develop
+    # use node docker image lts-bookworm-slim base image and add entrypoint yarn install && yarn start without dockerfile
+    image: node:20.15-bookworm-slim
+    # custom entrypoint yarn install && yarn start without dockerfile
+    # write multiline entrypoint script
+    entrypoint: >
+      sh -c "yarn web"
+    volumes:
+      - ./app:/app
+    working_dir: /app
+    restart: always
+    ports:
+      - "80:80"
+      - "19006:19006"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`dev.npole.org`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.services.app.loadbalancer.server.port=80"
+    network_mode: host
+
+  api:
+    container_name: api-dev
+    # image: ghcr.io/danfred360/what_did_i_sign_up_for-api:develop
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    # override cmd CMD ["api.main:app", "--host", "0.0.0.0", "--port", "80", "--log-config", "api/logging_config.json"]
+    command: uvicorn api.main:app --port 8083
+    restart: always
+    environment:
+      VECTORDB_HOST: localhost
+      VECTORDB_PORT: 5432
+      INPUT_FILES_DIRECTORY: /code/input_files
+    ports:
+      - "8081:8081"
+    env_file:
+      - ./api/.env
+    volumes:
+      - ./deploy/input_files:/code/input_files
+      # - ./logs/api:/var/log/what-did-i-sign-up-for
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`api-dev.npole.org`)"
+      - "traefik.http.routers.api.entrypoints=websecure"
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.services.api.loadbalancer.server.port=80"
+    network_mode: host
+
+  auth:
+    container_name: auth-dev
+    # image: ghcr.io/danfred360/what_did_i_sign_up_for-auth:develop
+    build:
+      context: ./auth
+      dockerfile: Dockerfile
+    command: uvicorn api.main:app --port 8082
+    restart: always
+    environment:
+      VECTORDB_HOST: localhost
+      VECTORDB_PORT: 5432
+    ports:
+      - "8082:8082"
+    env_file:
+      - ./auth/.env
+    # volumes:
+    #   - ./logs/auth:/var/log/what-did-i-sign-up-for
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.auth.rule=Host(`auth-dev.npole.org`)"
+      - "traefik.http.routers.auth.entrypoints=websecure"
+      - "traefik.http.routers.auth.tls.certresolver=myresolver"
+      - "traefik.http.services.auth.loadbalancer.server.port=80"
+    network_mode: host
+
+  vectordb:
+    container_name: vectordb-dev
+    # image: ghcr.io/danfred360/what_did_i_sign_up_for-vectordb:develop
+    build:
+      context: ./vectordb
+      dockerfile: Dockerfile
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./vectordb/vectordb.env
+    # volumes:
+    #   - ./vectordb/data:/var/lib/postgresql/data
+      # - ./logs/vectordb:/var/log/postgresql
+    network_mode: host
