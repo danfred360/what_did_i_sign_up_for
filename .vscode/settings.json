@@ -1,0 +1,18 @@
+{
+  "editor.formatOnSave": true,
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": ".swcrc, webpack.config.js, npm-certs.pem, .depcheckrc.yml, eslint.config.mjs, .npmrc, yarn.lock, tsconfig.json, .prettierrc.yml, .iyarc",
+    "*.py": "${basename}.test.py, I${basename}.py",
+    "task.json": "taskTransform.js"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "vscode.json-language-features"
+  },
+  "[python]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "charliermarsh.ruff"
+  }
+}
