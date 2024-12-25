@@ -10,7 +10,8 @@ const SignInPage = ({ onTokenReceived }) => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [showSignUp, setShowSignUp] = useState(false);
-  const AUTH_URL = Constants.expoConfig.extra.AUTH_URL || 'http://localhost:8001/token';
+  // const AUTH_URL = Constants.expoConfig.extra.AUTH_URL || 'http://localhost:8082/token';
+  const AUTH_URL = 'http://localhost:8082';
 
   const handleSignIn = async () => {
     try {
