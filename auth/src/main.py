@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Request, Form
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.security import OAuth2PasswordBearer, HTTPBasic
 from fastapi.middleware.cors import CORSMiddleware
 from base64 import b64decode
